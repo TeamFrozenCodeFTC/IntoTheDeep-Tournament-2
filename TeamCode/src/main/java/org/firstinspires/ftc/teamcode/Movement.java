@@ -28,10 +28,10 @@ public class Movement extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        frontLeftMotor = hardwareMap.get(DcMotor.class, "leftFront");
-        backLeftMotor = hardwareMap.get(DcMotor.class, "leftBack");
-        frontRightMotor = hardwareMap.get(DcMotor.class, "rightFront");
-        backRightMotor = hardwareMap.get(DcMotor.class, "rightBack");
+        frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeft");
+        backLeftMotor = hardwareMap.get(DcMotor.class, "backLeft");
+        frontRightMotor = hardwareMap.get(DcMotor.class, "frontRight");
+        backRightMotor = hardwareMap.get(DcMotor.class, "backRight");
 
         waitForStart();
         runtime.reset();
@@ -64,7 +64,7 @@ public class Movement extends LinearOpMode {
     }
 
     void addBackWheelsPower(double left, double right) {
-        backLeftPower += left;
+        backLeftPower -= left;
         backRightPower += right;
     }
 
