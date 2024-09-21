@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class Movement extends LinearOpMode {
     DcMotor backRightMotor;
     DcMotor frontRightMotor;
 
-    DcMotor intakeMotor;
+    Servo intake;
 
     double frontLeftPower = 0;
     double backLeftPower = 0;
@@ -28,9 +29,9 @@ public class Movement extends LinearOpMode {
 
     ArrayList<Double[][]> controls = new ArrayList<>();
 
-    double slowerFactor = 3;
+    double slowerFactor = 0.25;
     double factor = 0.75;
-    double boostFactor = 3;
+    double boostFactor = 10;
 
     @Override
     public void runOpMode() {
@@ -42,7 +43,7 @@ public class Movement extends LinearOpMode {
         backLeftMotor = hardwareMap.get(DcMotor.class, "backLeft");
         frontRightMotor = hardwareMap.get(DcMotor.class, "frontRight");
         backRightMotor = hardwareMap.get(DcMotor.class, "backRight");
-        intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
+        intake = hardwareMap.get(Servo.class, "intake");
 
         waitForStart();
 
@@ -57,10 +58,10 @@ public class Movement extends LinearOpMode {
             backRightPower = 0;
             frontRightPower = 0;
             for (Double[][] control : controls) {
-                frontLeftPower -= control[0][0];
-                backLeftPower += control[1][0];
-                backRightPower += control[1][1];
-                frontRightPower += control[0][1];
+                frontLeftPower -= control[0][0] * factor;
+                backLeftPower += control[1][0] * factor;
+                backRightPower += control[1][1] * factor;
+                frontRightPower += control[0][1] * factor;
             }
 
             boostControl();
@@ -97,7 +98,7 @@ public class Movement extends LinearOpMode {
     }
 
     void pivotControl() {
-        double pivot = gamepad1.right_stick_x * factor;
+        double pivot = gamepad1.right_stick_x;
 
         controls.add(new Double[][] {
                 {pivot, -pivot},
@@ -106,7 +107,7 @@ public class Movement extends LinearOpMode {
     }
 
     void verticalControl() {
-        double y = -gamepad1.left_stick_y * factor;
+        double y = -gamepad1.left_stick_y;
 
         controls.add(new Double[][] {
                 {y, y},
@@ -115,8 +116,8 @@ public class Movement extends LinearOpMode {
     }
 
     void horizontalSlideControl() {
-        double leftTrigger = gamepad1.left_trigger * factor;
-        double rightTrigger = gamepad1.right_trigger * factor;
+        double leftTrigger = gamepad1.left_trigger;
+        double rightTrigger = gamepad1.right_trigger;
 
         double slide = leftTrigger - rightTrigger;
 
@@ -129,6 +130,6 @@ public class Movement extends LinearOpMode {
     void intakeControl() {
         boolean a = gamepad1.a;
 
-        intakeMotor.setPower(a ? 1 : 0);
+        intake.setPosition(a ? 1 : 0);
     }
 }
