@@ -7,9 +7,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import java.util.ArrayList;
 
-/*
-Moves the robot via the main motors
- */
 
 public class MovementControls {
     DcMotor frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeft");;
