@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.har
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,8 @@ public class MovementControls {
     DcMotor backRightMotor = hardwareMap.get(DcMotor.class, "frontRight");
     DcMotor frontRightMotor = hardwareMap.get(DcMotor.class, "backRight");
 
-    frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+
+//    frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
     double frontLeftPower = 0;
     double backLeftPower = 0;
@@ -37,7 +39,7 @@ public class MovementControls {
         backRightPower = 0;
         frontRightPower = 0;
         for (Double[][] control : controls) {
-            frontLeftPower += control[0][0] * factor; // reversed
+            frontLeftPower -= control[0][0] * factor; // reversed
             backLeftPower += control[1][0] * factor;
             backRightPower += control[1][1] * factor;
             frontRightPower += control[0][1] * factor;
@@ -47,6 +49,8 @@ public class MovementControls {
         slowControl();
 
         // Set Motor Wheel Power
+        //frontLeftMotor.getCurrentPosition(); // 1x
+
         frontLeftMotor.setPower(frontLeftPower);
         backLeftMotor.setPower(backLeftPower);
         frontRightMotor.setPower(frontRightPower);
