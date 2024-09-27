@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@TeleOp(name="Movement", group="Linear OpMode")
+@TeleOp(name="OneClass", group="Linear OpMode")
 public class Old extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
 

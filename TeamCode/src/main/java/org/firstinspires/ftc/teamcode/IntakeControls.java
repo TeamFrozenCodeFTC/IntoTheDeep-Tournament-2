@@ -4,19 +4,17 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class IntakeControls {
-//    Servo intakeServo;
-//    LinearOpMode op;
-//
-//    public IntakeControls(LinearOpMode op) {
-//        this.op = op;
-//        this.intakeServo = this.op.hardwareMap.get(Servo.class, "intake");
-//    }
-//
-//    void intakeControl() {
-//        boolean a = op.gamepad2.a;
-//
-//        intakeServo.setPosition(a ? 1 : 0);
-//    }
+    OperationMode operationMode;
+
+    public IntakeControls(OperationMode operationMode) {
+        this.operationMode = operationMode;
+    }
+
+    void intakeControl() {
+        boolean a = operationMode.gamepad2.a;
+
+        operationMode.intakeServo.setPosition(a ? 1 : 0);
+    }
 }
 
 
