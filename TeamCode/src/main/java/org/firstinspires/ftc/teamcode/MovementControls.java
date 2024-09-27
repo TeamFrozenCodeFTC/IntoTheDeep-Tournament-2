@@ -1,19 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
 import java.util.ArrayList;
 
 
 public class MovementControls {
-    Main op;
 
-    public MovementControls(Main op) {
-        this.op = op;
+    // TODO straight forward movement
+
+    OperationMode operationMode;
+
+    public MovementControls(OperationMode operationMode) {
+        this.operationMode = operationMode;
     }
-//    frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
     double frontLeftPower = 0;
     double backLeftPower = 0;
@@ -45,19 +43,16 @@ public class MovementControls {
         boostControl();
         slowControl();
 
-        // Set Motor Wheel Power
-        //frontLeftMotor.getCurrentPosition(); // 1x
-
-        op.frontLeftMotor.setPower(frontLeftPower);
-        op.backLeftMotor.setPower(backLeftPower);
-        op.frontRightMotor.setPower(frontRightPower);
-        op.backRightMotor.setPower(backRightPower);
+        operationMode.frontLeftMotor.setPower(frontLeftPower);
+        operationMode.backLeftMotor.setPower(backLeftPower);
+        operationMode.frontRightMotor.setPower(frontRightPower);
+        operationMode.backRightMotor.setPower(backRightPower);
 
         controls.clear();
     }
 
     void slowControl() {
-        boolean slow = op.gamepad1.left_bumper;
+        boolean slow = operationMode.gamepad1.left_bumper;
         if (slow) {
             frontLeftPower *= slowerFactor;
             frontRightPower *= slowerFactor;
@@ -67,7 +62,7 @@ public class MovementControls {
     }
 
     void boostControl() {
-        boolean boost = op.gamepad1.right_bumper;
+        boolean boost = operationMode.gamepad1.right_bumper;
         if (boost) {
             frontLeftPower *= boostFactor;
             frontRightPower *= boostFactor;
@@ -77,7 +72,7 @@ public class MovementControls {
     }
 
     void pivotControl() {
-        double pivot = op.gamepad1.right_stick_x;
+        double pivot = operationMode.gamepad1.right_stick_x;
 
         controls.add(new Double[][] {
                 {pivot, -pivot},
@@ -86,7 +81,7 @@ public class MovementControls {
     }
 
     void verticalControl() {
-        double y = -op.gamepad1.left_stick_y;
+        double y = -operationMode.gamepad1.left_stick_y;
 
         controls.add(new Double[][] {
                 {y, y},
@@ -95,10 +90,10 @@ public class MovementControls {
     }
 
     void horizontalSlideControl() {
-        double leftTrigger = op.gamepad1.left_trigger;
-        double rightTrigger = op.gamepad1.right_trigger;
+        double leftTrigger = operationMode.gamepad1.left_trigger;
+        double rightTrigger = operationMode.gamepad1.right_trigger;
 
-        double slide = leftTrigger - rightTrigger;
+        double slide = leftTrigger > rightTrigger ? leftTrigger : -rightTrigger;
 
         controls.add(new Double[][] {
                 {-slide, +slide},
