@@ -34,7 +34,7 @@ public class MovementControls {
         backRightPower = 0;
         frontRightPower = 0;
         for (Double[][] control : controls) {
-            frontLeftPower -= control[0][0] * factor; // reversed
+            frontLeftPower += control[0][0] * factor;
             backLeftPower += control[1][0] * factor;
             backRightPower += control[1][1] * factor;
             frontRightPower += control[0][1] * factor;
