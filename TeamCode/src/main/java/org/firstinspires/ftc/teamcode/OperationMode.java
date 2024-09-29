@@ -21,14 +21,7 @@ public class OperationMode extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeft");
-        backLeftMotor = hardwareMap.get(DcMotor.class, "backLeft");
-        frontRightMotor = hardwareMap.get(DcMotor.class, "frontRight");
-        backRightMotor = hardwareMap.get(DcMotor.class, "backRight");
-
-        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-
-        intakeServo = hardwareMap.get(Servo.class, "intake");
+        initHardware();
 
         IntakeControls intakeControls = new IntakeControls(this);
         MovementControls movement = new MovementControls(this);
@@ -39,5 +32,16 @@ public class OperationMode extends LinearOpMode {
             intakeControls.intakeControl();
             movement.movementControls();
         }
+    }
+
+    void initHardware() {
+        frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeft");
+        backLeftMotor = hardwareMap.get(DcMotor.class, "backLeft");
+        frontRightMotor = hardwareMap.get(DcMotor.class, "frontRight");
+        backRightMotor = hardwareMap.get(DcMotor.class, "backRight");
+
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+
+        intakeServo = hardwareMap.get(Servo.class, "intake");
     }
 }
