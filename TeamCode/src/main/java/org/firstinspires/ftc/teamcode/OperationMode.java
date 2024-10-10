@@ -14,10 +14,13 @@ public class OperationMode extends LinearOpMode {
     DcMotor frontRightMotor;
     DcMotor backRightMotor;
 
+    DcMotor intakeMotor;
+
     Servo intakeServo;
 
     @Override
     public void runOpMode() {
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -31,6 +34,15 @@ public class OperationMode extends LinearOpMode {
         while (opModeIsActive()) {
             intakeControls.intakeControl();
             movement.movementControls();
+
+            if(gamepad2.left_bumper ){
+                intakeMotor.setPower(-1.0);
+            } else if (gamepad2.right_bumper) {
+                intakeMotor.setPower(1.0);
+            } else{
+                intakeMotor.setPower(0);
+            }
+
         }
     }
 
@@ -39,7 +51,7 @@ public class OperationMode extends LinearOpMode {
         backLeftMotor = hardwareMap.get(DcMotor.class, "backLeft");
         frontRightMotor = hardwareMap.get(DcMotor.class, "frontRight");
         backRightMotor = hardwareMap.get(DcMotor.class, "backRight");
-
+        intakeMotor =  hardwareMap.get(DcMotor.class, "intakeMotor");
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         intakeServo = hardwareMap.get(Servo.class, "intake");
