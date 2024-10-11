@@ -41,7 +41,14 @@ public class OperationMode extends LinearOpMode {
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         linearSlide = hardwareMap.get(DcMotor.class, "linearSlide");
+
+        linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
 }
