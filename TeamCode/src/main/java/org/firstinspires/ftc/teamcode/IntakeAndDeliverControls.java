@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 public class IntakeAndDeliverControls {
     OperationMode operationMode;
 
@@ -11,15 +9,9 @@ public class IntakeAndDeliverControls {
 
     void intakeAndDeliverControls() {
         intakeControl();
-        calculateHeight();
-        intakeControl();
+        telemetry();
         linearSlide();
     }
-
-//    void intakeControl() {
-//        operationMode.intakeMotor.setPower(operationMode.gamepad2.left_stick_y);
-//        operationMode.linearSlide.setPower(operationMode.gamepad2.right_stick_y);
-//    }
 
     void intakeControl() {
         double power = operationMode.gamepad2.left_stick_y;
@@ -30,32 +22,36 @@ public class IntakeAndDeliverControls {
 
         if (position > endLimit && -power > 0) {
             power = 0;
-            //operationMode.intakeMotor.setTargetPosition(startLimit);
         }
         if (position < startLimit && -power < 0) {
             power = 0;
-            operationMode.intakeMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            operationMode.intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            //operationMode.intakeMotor.setTargetPosition(startLimit);
+//            operationMode.intakeMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//            operationMode.intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
 
         operationMode.intakeMotor.setPower(power);
     }
 
-    boolean pressing = false;
+    boolean pressed = false;
 
     void linearSlide() {
         if (operationMode.gamepad2.right_bumper) {
-            pressing = true;
+            pressed = true;
         }
         else if (operationMode.gamepad2.left_bumper) {
-            pressing = false;
+            pressed = false;
         }
 
-        if (pressing && operationMode.linearSlide.getCurrentPosition() > -4720) {
+        int ticks = operationMode.linearSlide.getCurrentPosition();
+        
+        boolean up = pressed && ticks > 4720;
+        boolean down = !pressed && ticks < 20;
+
+        if (up) {
             operationMode.linearSlide.setPower(-0.25);
+            pressed = false;
         }
-        else if (!pressing && operationMode.linearSlide.getCurrentPosition() < 20) {
+        else if (down) {
             operationMode.linearSlide.setPower(0.15);
         }
         else {
@@ -63,17 +59,13 @@ public class IntakeAndDeliverControls {
         }
     }
 
-    // -4746
-    // -3583
+    // Linear Slide Max -4746
+    // Intake Max -3583
 
-    void calculateHeight() {
-        boolean power = operationMode.gamepad2.circle;
-        operationMode.telemetry.addData("Power", power);
+    void telemetry() {
         operationMode.telemetry.addData("Linear Slide Ticks", operationMode.linearSlide.getCurrentPosition());
         operationMode.telemetry.addData("Intake Ticks", operationMode.intakeMotor.getCurrentPosition());
         operationMode.telemetry.update();
     }
 
 }
-
-
