@@ -9,13 +9,28 @@ public class IntakeAndDeliverControls {
 
     void intakeAndDeliverControls() {
         intakeControl();
-        telemetry();
+
         linearSlide();
+
+        sweeperRotator();
+        sweeper();
+    }
+
+    int startLimit = 100;
+    int endLimit = 3300;
+
+    int intakeBack() {
+        double position = -operationMode.intakeExtender.getCurrentPosition();
+
+        while (position < startLimit) {
+            operationMode.intakeExtender.setPower(-1);
+
+        }
     }
 
     void intakeControl() {
         double power = operationMode.gamepad2.left_stick_y;
-        double position = -operationMode.intakeMotor.getCurrentPosition();
+        double position = -operationMode.intakeExtender.getCurrentPosition();
 
         int startLimit = 100;
         int endLimit = 3300;
@@ -25,11 +40,9 @@ public class IntakeAndDeliverControls {
         }
         if (position < startLimit && -power < 0) {
             power = 0;
-//            operationMode.intakeMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//            operationMode.intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
 
-        operationMode.intakeMotor.setPower(power);
+        operationMode.intakeExtender.setPower(power);
     }
 
     boolean pressed = false;
@@ -43,29 +56,45 @@ public class IntakeAndDeliverControls {
         }
 
         int ticks = operationMode.linearSlide.getCurrentPosition();
-        
-        boolean up = pressed && ticks > 4720;
-        boolean down = !pressed && ticks < 20;
 
-        if (up) {
-            operationMode.linearSlide.setPower(-0.25);
-            pressed = false;
+        if (pressed && ticks > 4320) {
+            // (4320, 0) (4720, 1)
+            double power = ((-1/400.0) * (ticks) + 11.8) / 4;
+            operationMode.linearSlide.setPower(power);
         }
-        else if (down) {
-            operationMode.linearSlide.setPower(0.15);
+        else if (pressed && ticks < 4720) {
+            operationMode.linearSlide.setPower(1);
+        }
+        else if (!pressed && ticks > 20) {
+            operationMode.linearSlide.setPower(-0.15);
         }
         else {
             operationMode.linearSlide.setPower(0);
         }
     }
 
-    // Linear Slide Max -4746
-    // Intake Max -3583
+    boolean pressedRotate = false;
+    static final double SWEEPER_ROTATOR_MIN_POSITION = .25;
+    static final double SWEEPER_ROTATOR_MAX_POSITION = .92;
 
-    void telemetry() {
-        operationMode.telemetry.addData("Linear Slide Ticks", operationMode.linearSlide.getCurrentPosition());
-        operationMode.telemetry.addData("Intake Ticks", operationMode.intakeMotor.getCurrentPosition());
-        operationMode.telemetry.update();
+    static final double LINEAR_SLIDE_MAX_TICKS = 4746;
+    static final double INTAKE_MAX_TICKS = 3583;
+
+    void sweeperRotator() {
+        if (operationMode.gamepad2.right_stick_y < 0) {
+            pressedRotate = true;
+            // make put intake back
+        }
+        if (operationMode.gamepad2.right_stick_y > 0) {
+            pressedRotate = false;
+        }
+
+        operationMode.sweeperRotator.setPosition(pressedRotate ? SWEEPER_ROTATOR_MAX_POSITION : SWEEPER_ROTATOR_MIN_POSITION);
     }
 
+    void sweeper() {
+         operationMode.sweeper.setPower(
+                operationMode.gamepad2.square ? -1 : (operationMode.gamepad2.circle ? 0.5 : 0)
+         );
+     }
 }

@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
-@TeleOp(name="Main", group="Linear OpMode")
-public class OperationMode extends LinearOpMode {
+abstract class Robot extends LinearOpMode {
     DcMotor frontLeftWheel;
     DcMotor backLeftWheel;
     DcMotor frontRightWheel;
@@ -20,29 +17,6 @@ public class OperationMode extends LinearOpMode {
 
     CRServo sweeper;
     Servo sweeperRotator;
-
-    @Override
-    public void runOpMode() {
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-
-        initHardware();
-
-        IntakeAndDeliverControls intakeAndDeliverControls = new IntakeAndDeliverControls(this);
-        MovementControls movement = new MovementControls(this);
-
-        waitForStart();
-
-        while (opModeIsActive()) {
-            movement.movementControls();
-            intakeAndDeliverControls.intakeAndDeliverControls();
-
-            telemetry.addData("frontLeft", backRightWheel.getCurrentPosition());
-            telemetry.update();
-        }
-
-        intakeAndDeliverControls.intakeBack();
-    }
 
     void initHardware() {
         frontLeftWheel = hardwareMap.get(DcMotor.class, "frontLeft");
@@ -77,3 +51,4 @@ public class OperationMode extends LinearOpMode {
         sweeperRotator = hardwareMap.get(Servo.class, "sweeperRotator");
     }
 }
+

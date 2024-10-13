@@ -43,10 +43,10 @@ public class MovementControls {
         boostControl();
         slowControl();
 
-        operationMode.frontLeftMotor.setPower(frontLeftPower);
-        operationMode.backLeftMotor.setPower(backLeftPower);
-        operationMode.frontRightMotor.setPower(frontRightPower);
-        operationMode.backRightMotor.setPower(backRightPower);
+        operationMode.frontLeftWheel.setPower(frontLeftPower);
+        operationMode.backLeftWheel.setPower(backLeftPower);
+        operationMode.frontRightWheel.setPower(frontRightPower);
+        operationMode.backRightWheel.setPower(backRightPower);
 
         controls.clear();
     }
