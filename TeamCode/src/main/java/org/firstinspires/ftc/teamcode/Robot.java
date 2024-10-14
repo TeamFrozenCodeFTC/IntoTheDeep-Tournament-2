@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+// if extending doesn't work then remove LinearOpMode and abstract
 abstract class Robot extends LinearOpMode {
     DcMotor frontLeftWheel;
     DcMotor backLeftWheel;

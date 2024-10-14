@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 
 public class MovementControls {
-
-    // TODO straight forward movement
-
     OperationMode operationMode;
 
     public MovementControls(OperationMode operationMode) {
