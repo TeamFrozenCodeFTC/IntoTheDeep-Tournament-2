@@ -7,37 +7,41 @@ public class LinearSlide {
         this.operationMode = operationMode;
     }
 
-    static final double LINEAR_SLIDE_MAX_TICKS = 4746;
-    static final double INTAKE_MAX_TICKS = 3583;
+    static final int MAX_TICKS = 4746;
+    static final int TICKS_MARGIN = 25;
+//    static final int FORMULA_TICKS_MARGIN = 400;
 
-    boolean isExtended = false;
+//    boolean isExtended = false;
 
     void extend() {
-        new Thread(() -> {
-            isExtended = true;
-            while (isExtended) {
-                int ticks = operationMode.linearSlide.getCurrentPosition();
-
-                if (ticks < 4320) {
-                    operationMode.linearSlide.setPower(1);
-                }
-                else {
-                    // TODO make formula
-                    double power = ((-1/400.0) * (ticks) + 11.8) / 4;
-                    operationMode.linearSlide.setPower(power);
-                }
-            }
-        }).start();
+        operationMode.linearSlide.setPower(1);
+        operationMode.linearSlide.setTargetPosition(MAX_TICKS-TICKS_MARGIN);
+//        new Thread(() -> {
+//            isExtended = true;
+//            while (isExtended) {
+//                int ticks = operationMode.linearSlide.getCurrentPosition();
+//
+//                if (ticks < 4320) {
+//                    operationMode.linearSlide.setPower(1);
+//                }
+//                else {
+//                    //double power = ((-1/400.0) * (ticks) + 11.8) / 4;
+//                    operationMode.linearSlide.setPower(power);
+//                }
+//            }
+//        }).start();
     }
 
     void retract() {
-        new Thread(() -> {
-            isExtended = false;
-
-            while (!isExtended && operationMode.linearSlide.getCurrentPosition() > 20) {
-                operationMode.linearSlide.setPower(-0.15);
-            }
-        }).start();
+        operationMode.linearSlide.setPower(-1);
+        operationMode.linearSlide.setTargetPosition(TICKS_MARGIN);
+//        new Thread(() -> {
+//            isExtended = false;
+//
+//            while (!isExtended && operationMode.linearSlide.getCurrentPosition() > 20) {
+//                operationMode.linearSlide.setPower(-0.15);
+//            }
+//        }).start();
     }
 
 }
@@ -50,8 +54,6 @@ class LinearSlideControls {
         this.operationMode = operationMode;
         this.linearSlide = new LinearSlide(operationMode);
     }
-
-    boolean pressed = false;
 
 //    void linearSlide() {
 //        if (operationMode.gamepad2.right_bumper) {

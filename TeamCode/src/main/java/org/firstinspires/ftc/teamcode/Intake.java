@@ -7,27 +7,36 @@ public class Intake {
         this.operationMode = operationMode;
     }
 
-    static final double SWEEPER_ROTATOR_MIN_POSITION = .25;
-    static final double SWEEPER_ROTATOR_MAX_POSITION = .92;
+    static final double SWEEPER_ARM_MIN_POSITION = .25;
+    static final double SWEEPER_ARM_MAX_POSITION = .92;
 
-    static final int MIN_TICKS = 100;
-    static final int MAX_TICKS = 3300;
+    static final int MAX_TICKS = 3500;
+    static final int TICKS_MARGIN = 100;
+
+    static final int MIN_TICKS = MAX_TICKS - TICKS_MARGIN;
 
     void moveExtenderBack() {
-        new Thread(() -> {
-            while (operationMode.intakeExtender.getCurrentPosition() < MIN_TICKS) {
-                operationMode.intakeExtender.setPower(-1);
-            }
-            operationMode.intakeExtender.setPower(0);
-        }).start();
+        operationMode.linearSlide.setPower(1);
+        operationMode.linearSlide.setTargetPosition(MIN_TICKS);
+//        new Thread(() -> {
+//            while (operationMode.intakeExtender.getCurrentPosition() < MIN_TICKS) {
+//                operationMode.intakeExtender.setPower(-1);
+//            }
+//            operationMode.intakeExtender.setPower(0);
+//        }).start();
+    }
+
+    // TODO cruz?
+    void moveExtenderOut(double inches) {
+
     }
 
     void sweeperArmOut() {
-        operationMode.sweeperRotator.setPosition(SWEEPER_ROTATOR_MAX_POSITION);
+        operationMode.sweeperRotator.setPosition(SWEEPER_ARM_MAX_POSITION);
     }
 
     void sweeperArmIn() {
-        operationMode.sweeperRotator.setPosition(SWEEPER_ROTATOR_MIN_POSITION);
+        operationMode.sweeperRotator.setPosition(SWEEPER_ARM_MIN_POSITION);
     }
 
     void spinSweeperIn() {

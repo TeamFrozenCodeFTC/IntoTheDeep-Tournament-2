@@ -33,18 +33,18 @@ abstract class Robot extends LinearOpMode {
         backRightWheel = hardwareMap.get(DcMotor.class, "backRight");
         backRightWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // backRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        // backRightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         intakeExtender = hardwareMap.get(DcMotor.class, "intakeMotor");
         intakeExtender.setDirection(DcMotorSimple.Direction.REVERSE);
         intakeExtender.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // intakeArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        intakeExtender.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intakeExtender.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         linearSlide = hardwareMap.get(DcMotor.class, "linearSlide");
         linearSlide.setDirection(DcMotorSimple.Direction.REVERSE);
-        // linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linearSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         sweeper = hardwareMap.get(CRServo.class, "sweeper");
         sweeper.setDirection(DcMotorSimple.Direction.REVERSE);
