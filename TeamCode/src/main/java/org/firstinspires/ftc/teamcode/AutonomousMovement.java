@@ -1,22 +1,124 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 // TODO cruz?
 // Reference: RobotAutoDriveByGyro_Linear
 // Use combination of gyro and encoders to drive and turn accurately.
 public class AutonomousMovement {
-    Robot operationMode;
+    Robot robot;
 
-    public AutonomousMovement(OperationMode operationMode) {
-        this.operationMode = operationMode;
+    public AutonomousMovement(Robot robot) {
+        this.robot = robot;
     }
 
-    void goStraight(double inches) {
+    void goForward(double inches, double power) {
+        robot.backRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        robot.backLeftWheel.setPower(power);
+        robot.backRightWheel.setPower(power);
+        robot.frontLeftWheel.setPower(power);
+        robot.frontRightWheel.setPower(power);
+       double targetTics = inchesToTics(inches);
+        while (Math.abs(robot.backRightWheel.getCurrentPosition()) < targetTics) {
+
+        }
+        robot.backLeftWheel.setPower(0);
+        robot.backRightWheel.setPower(0);
+        robot.frontLeftWheel.setPower(0);
+        robot.frontRightWheel.setPower(0);
+
+    }
+    double inchesToTics(double inches){
+        return inches*300;
+    }
+
+    void goBackward(double inches, double power) {
+        robot.backRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        robot.backLeftWheel.setPower(-power);
+        robot.backRightWheel.setPower(-power);
+        robot.frontLeftWheel.setPower(-power);
+        robot.frontRightWheel.setPower(-power);
+        double targetTics = inchesToTics(inches);
+        while (Math.abs(robot.backRightWheel.getCurrentPosition()) < targetTics) {
+
+        }
+        robot.backLeftWheel.setPower(0);
+        robot.backRightWheel.setPower(0);
+        robot.frontLeftWheel.setPower(0);
+        robot.frontRightWheel.setPower(0);
+    }
+
+    void slideLeft(double inches, double power) {
+        robot.backRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        robot.backLeftWheel.setPower(power);
+        robot.backRightWheel.setPower(power);
+        robot.frontLeftWheel.setPower(-power);
+        robot.frontRightWheel.setPower(-power);
+        double targetTics = inchesToTics(inches);
+        while (robot.backRightWheel.getCurrentPosition() < targetTics) {
+
+        }
+        robot.backLeftWheel.setPower(0);
+        robot.backRightWheel.setPower(0);
+        robot.frontLeftWheel.setPower(0);
+        robot.frontRightWheel.setPower(0);
+    }
+
+    void slideRight(double inches, double power) {
+        robot.backRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        robot.backLeftWheel.setPower(-power);
+        robot.backRightWheel.setPower(-power);
+        robot.frontLeftWheel.setPower(power);
+        robot.frontRightWheel.setPower(power);
+        double targetTics = inchesToTics(inches);
+        while (robot.backRightWheel.getCurrentPosition() < targetTics) {
+
+        }
+        robot.backLeftWheel.setPower(0);
+        robot.backRightWheel.setPower(0);
+        robot.frontLeftWheel.setPower(0);
+        robot.frontRightWheel.setPower(0);
+    }
+
+    void turnLeft(double degrees, double power) {
+        robot.backRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        robot.backLeftWheel.setPower(-power);
+        robot.backRightWheel.setPower(power);
+        robot.frontLeftWheel.setPower(-power);
+        robot.frontRightWheel.setPower(power);
+//        double targetTics = inchesToTics(inches);
+//        while (robot.backRightWheel.getCurrentPosition() < targetTics) {
+//
+//        }
+        robot.backLeftWheel.setPower(0);
+        robot.backRightWheel.setPower(0);
+        robot.frontLeftWheel.setPower(0);
+        robot.frontRightWheel.setPower(0);
+    }
+
+    void turnRight(double degrees, double power) {
+
+    }
+    void releaseBlock(){
+
+    }
+    void setArm(int level){
+
+    }
+    void tiltDumper(){
 
     }
 
-    void turnDegrees(double degrees) {
-
-    }
 }
 
 //package org.firstinspires.ftc.robotcontroller.external.samples;

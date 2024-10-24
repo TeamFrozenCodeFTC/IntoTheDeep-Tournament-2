@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -18,6 +19,8 @@ abstract class Robot extends LinearOpMode {
 
     CRServo sweeper;
     Servo sweeperRotator;
+
+    Gyro2 gyro;
 
     void initHardware() {
         frontLeftWheel = hardwareMap.get(DcMotor.class, "frontLeft");
@@ -50,6 +53,9 @@ abstract class Robot extends LinearOpMode {
         sweeper.setDirection(DcMotorSimple.Direction.REVERSE);
 
         sweeperRotator = hardwareMap.get(Servo.class, "sweeperRotator");
+
+        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
+        gyro = new Gyro2(imu, this);
     }
 }
 
