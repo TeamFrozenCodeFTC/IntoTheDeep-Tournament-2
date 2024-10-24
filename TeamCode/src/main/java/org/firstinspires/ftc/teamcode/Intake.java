@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 public class Intake {
     Robot operationMode;
 
@@ -13,17 +15,29 @@ public class Intake {
     static final int MAX_TICKS = 3500;
     static final int TICKS_MARGIN = 100;
 
-    static final int MIN_TICKS = MAX_TICKS - TICKS_MARGIN;
+    static final int MIN_TICKS = TICKS_MARGIN;
 
     void moveExtenderBack() {
-        operationMode.linearSlide.setPower(1);
-        operationMode.linearSlide.setTargetPosition(MIN_TICKS);
 //        new Thread(() -> {
-//            while (operationMode.intakeExtender.getCurrentPosition() < MIN_TICKS) {
-//                operationMode.intakeExtender.setPower(-1);
+//            isExtended = true;
+//            while (isExtended) {
+//                int ticks = operationMode.intakeExtender.getCurrentPosition();
+//
+//                if (ticks < MAX_TICKS) {
+//                    operationMode.intakeExtender.setPower(-1);
+//                }
+//                else {
+//                    break;
+//                }
 //            }
-//            operationMode.intakeExtender.setPower(0);
 //        }).start();
+
+        new Thread(() -> {
+            while (operationMode.intakeExtender.getCurrentPosition() > MIN_TICKS) {
+                operationMode.intakeExtender.setPower(-1);
+            }
+            operationMode.intakeExtender.setPower(0);
+        }).start();
     }
 
     // TODO cruz?
@@ -41,6 +55,8 @@ public class Intake {
 
     void spinSweeperIn() {
         operationMode.sweeper.setPower(0.5);
+        operationMode.telemetry.addData(">", "x");
+        operationMode.telemetry.update();
     }
 
     void spinSweeperOut() {
@@ -81,7 +97,7 @@ class IntakeControls {
         if (operationMode.gamepad2.right_stick_y < 0) {
             intake.sweeperArmOut();
         }
-        if (operationMode.gamepad2.right_stick_y > 0) {
+        else if (operationMode.gamepad2.right_stick_y > 0) {
             intake.sweeperArmIn();
         }
     }
@@ -90,8 +106,11 @@ class IntakeControls {
         if (operationMode.gamepad2.square) {
             intake.spinSweeperOut();
         }
-        if (operationMode.gamepad2.circle) {
+        else if (operationMode.gamepad2.circle) {
             intake.spinSweeperIn();
+        }
+        else {
+            operationMode.sweeper.setPower(0);
         }
     }
 }

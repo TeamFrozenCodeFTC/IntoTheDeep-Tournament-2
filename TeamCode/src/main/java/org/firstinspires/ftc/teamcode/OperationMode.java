@@ -18,6 +18,9 @@ public class OperationMode extends Robot {
 
         waitForStart();
 
+        intakeControls.intake.sweeperArmIn();
+        intakeControls.intake.moveExtenderBack();
+
         while (opModeIsActive()) {
             movement.movementControls();
             intakeControls.control();
@@ -25,11 +28,12 @@ public class OperationMode extends Robot {
 
             // Get ticks to inches ratio
             telemetry.addData("frontLeft", backRightWheel.getCurrentPosition());
+            telemetry.addData("ticks", intakeExtender.getCurrentPosition());
             // get multiple wheels for accuracy?
             telemetry.update();
         }
 
-        intakeControls.intake.moveExtenderBack();
-        linearSlideControls.linearSlide.retract();
+        telemetry.addData("DONE", "done");
+        telemetry.update();
     }
 }
