@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class LinearSlide {
     Robot operationMode;
@@ -8,40 +9,38 @@ public class LinearSlide {
     }
 
     static final int MAX_TICKS = 4746;
-    static final int TICKS_MARGIN = 25;
+    static final int TICKS_MARGIN = 426;
+
+    static final int LINEAR_TICKS = MAX_TICKS - TICKS_MARGIN;
 //    static final int FORMULA_TICKS_MARGIN = 400;
 
-//    boolean isExtended = false;
+    boolean isExtended = false;
 
     void extend() {
-        operationMode.linearSlide.setPower(1);
-        operationMode.linearSlide.setTargetPosition(MAX_TICKS-TICKS_MARGIN);
-//        new Thread(() -> {
-//            isExtended = true;
-//            while (isExtended) {
-//                int ticks = operationMode.linearSlide.getCurrentPosition();
-//
-//                if (ticks < 4320) {
-//                    operationMode.linearSlide.setPower(1);
-//                }
-//                else {
-//                    //double power = ((-1/400.0) * (ticks) + 11.8) / 4;
-//                    operationMode.linearSlide.setPower(power);
-//                }
-//            }
-//        }).start();
+        new Thread(() -> {
+            isExtended = true;
+            while (isExtended) {
+                int ticks = operationMode.linearSlide.getCurrentPosition();
+
+                if (ticks < 4320) {
+                    operationMode.linearSlide.setPower(1);
+                }
+                else {
+                    double power = ((-1/400.0) * (ticks) + 11.8) / 4;
+                    operationMode.linearSlide.setPower(power);
+                }
+            }
+        }).start();
     }
 
     void retract() {
-        operationMode.linearSlide.setPower(-1);
-        operationMode.linearSlide.setTargetPosition(TICKS_MARGIN);
-//        new Thread(() -> {
-//            isExtended = false;
-//
-//            while (!isExtended && operationMode.linearSlide.getCurrentPosition() > 20) {
-//                operationMode.linearSlide.setPower(-0.15);
-//            }
-//        }).start();
+        new Thread(() -> {
+            isExtended = false;
+
+            while (!isExtended && operationMode.linearSlide.getCurrentPosition() > 20) {
+                operationMode.linearSlide.setPower(-0.2);
+            }
+        }).start();
     }
 
 }
