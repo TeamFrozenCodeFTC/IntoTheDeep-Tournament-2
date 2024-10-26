@@ -47,6 +47,7 @@ public abstract class Robot extends LinearOpMode {
 
         frontRightWheel = hardwareMap.get(DcMotor.class, "frontRight");
         autoBrake(frontRightWheel);
+        reverse(frontRightWheel);
 
         backRightWheel = hardwareMap.get(DcMotor.class, "backRight");
         autoBrake(backRightWheel);
@@ -66,6 +67,7 @@ public abstract class Robot extends LinearOpMode {
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         gyro = new Gyro2(imu, this);
+        gyro.startGyro();
 
         dumperServo = hardwareMap.get(Servo.class, "dumperServo");
     }

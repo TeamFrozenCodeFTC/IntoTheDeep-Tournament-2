@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class ForwordCalabration extends Robot {
     @Override
     public void runOpMode() throws InterruptedException {
-
         initHardware();
         waitForStart();
         while(opModeIsActive()) {
