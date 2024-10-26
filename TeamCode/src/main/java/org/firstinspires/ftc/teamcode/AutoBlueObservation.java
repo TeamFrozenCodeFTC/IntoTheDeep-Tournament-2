@@ -1,29 +1,27 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-@Autonomous
-public class AutoBlueObservation extends Robot{
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous
+public class AutoBlueObservation extends Autonomous {
     @Override
     public void runOpMode() throws InterruptedException {
 
         initHardware();
-        AutonomousMovement auto = new AutonomousMovement(this);
+        //Autonomous auto = new Autonomous(this);
 
         waitForStart();
 
-        auto.goForward(20,0.5);
-        auto.turnLeft(90,0.5);
-        auto.goForward(46,0.5);
-        auto.turnRight(135,0.5);
-        auto.goBackward(20,0.5);
-        auto.releaseBlock();
-        auto.setArm(2);
-        auto.tiltDumper();
-        auto.setArm(0);
+        goForward(20,0.5);
+        turnLeft(90,0.5);
+        goForward(46,0.5);
+        turnRight(135,0.5);
+        goBackward(20,0.5);
+        releaseBlock();
+        setArm(2);
+        tiltDumper();
+        setArm(0);
 
-        auto.turnRight(45,0.5);
-        auto.goForward(92,0.5);
+        turnRight(45,0.5);
+        goForward(92,0.5);
 
     }
 }
