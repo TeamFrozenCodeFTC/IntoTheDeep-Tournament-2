@@ -97,17 +97,17 @@ public abstract class Autonomous extends Robot {
     }
 
     void turnLeft(double degrees, double power) {
-        backRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        gyro.reset();
 
         backLeftWheel.setPower(-power);
         backRightWheel.setPower(power);
         frontLeftWheel.setPower(-power);
         frontRightWheel.setPower(power);
-//        double targetTics = inchesToTics(inches);
-//        while (backRightWheel.getCurrentPosition() < targetTics) {
-//
-//        }
+
+        while (Math.abs(gyro.getAngle()) > degrees) {
+
+        }
+
         backLeftWheel.setPower(0);
         backRightWheel.setPower(0);
         frontLeftWheel.setPower(0);
@@ -115,6 +115,21 @@ public abstract class Autonomous extends Robot {
     }
 
     void turnRight(double degrees, double power) {
+            gyro.reset();
+
+            backLeftWheel.setPower(power);
+            backRightWheel.setPower(-power);
+            frontLeftWheel.setPower(power);
+            frontRightWheel.setPower(-power);
+
+            while (Math.abs(gyro.getAngle()) > degrees) {
+
+            }
+
+            backLeftWheel.setPower(0);
+            backRightWheel.setPower(0);
+            frontLeftWheel.setPower(0);
+            frontRightWheel.setPower(0);
 
     }
     void releaseBlock(){
