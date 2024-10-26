@@ -3,10 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import java.util.ArrayList;
 
 
-public class MovementControls {
+public class WheelControls {
     OperationMode operationMode;
 
-    public MovementControls(OperationMode operationMode) {
+    public WheelControls(OperationMode operationMode) {
         this.operationMode = operationMode;
     }
 
@@ -21,7 +21,7 @@ public class MovementControls {
     double factor = 0.75;
     double boostFactor = 10;
 
-    void movementControls() {
+    void wheelControls() {
         horizontalSlideControl();
         verticalControl();
         pivotControl();

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class Intake {
     Robot operationMode;
 
-    public Intake(OperationMode operationMode) {
+    public Intake(Robot operationMode) {
         this.operationMode = operationMode;
     }
 
@@ -17,33 +17,30 @@ public class Intake {
 
     static final int MIN_TICKS = TICKS_MARGIN;
 
-    void moveExtenderBack() {
-//        new Thread(() -> {
-//            isExtended = true;
-//            while (isExtended) {
-//                int ticks = operationMode.intakeExtender.getCurrentPosition();
-//
-//                if (ticks < MAX_TICKS) {
-//                    operationMode.intakeExtender.setPower(-1);
-//                }
-//                else {
-//                    break;
-//                }
+//    static final int TICKS_TO_INCHES = 200;
+
+//    void waitForExtend() throws InterruptedException {
+//        wait(5);
+//        if (extend) {
+//            while (!isExtended) {
+//                wait(10);
 //            }
+//        }
+//        else {
+//            while (isExtended) {
+//                wait(10);
+//            }
+//        }
+//    }
+//
+//    void moveExtenderInches(double inches) {
+//        new Thread(() -> {
+//            while (operationMode.intakeExtender.getCurrentPosition() > inches * TICKS_TO_INCHES) {
+//                operationMode.intakeExtender.setPower(-1);
+//            }
+//            operationMode.intakeExtender.setPower(0);
 //        }).start();
-
-        new Thread(() -> {
-            while (operationMode.intakeExtender.getCurrentPosition() > MIN_TICKS) {
-                operationMode.intakeExtender.setPower(-1);
-            }
-            operationMode.intakeExtender.setPower(0);
-        }).start();
-    }
-
-    // TODO cruz?
-    void moveExtenderOut(double inches) {
-
-    }
+//    }
 
     void sweeperArmOut() {
         operationMode.sweeperRotator.setPosition(SWEEPER_ARM_MAX_POSITION);

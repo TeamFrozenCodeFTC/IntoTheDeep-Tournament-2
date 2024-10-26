@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-// if extending doesn't work then remove LinearOpMode and abstract
-abstract class Robot extends LinearOpMode {
+// A parent class to all operation modes. Contains the Robot's Hardware but also LinearOpMode.
+public abstract class Robot extends LinearOpMode {
     DcMotor frontLeftWheel;
     DcMotor backLeftWheel;
     DcMotor frontRightWheel;
@@ -22,32 +22,40 @@ abstract class Robot extends LinearOpMode {
 
     Gyro2 gyro;
 
+    Servo dumperServo;
+
+    private void autoBrake(DcMotor motor) {
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
+
+    private void reverse(DcMotor motor) {
+        motor.setDirection(DcMotor.Direction.REVERSE);
+    }
+
+    private void resetTicks(DcMotor motor) {
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
     void initHardware() {
         frontLeftWheel = hardwareMap.get(DcMotor.class, "frontLeft");
-        frontLeftWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontLeftWheel.setDirection(DcMotor.Direction.REVERSE);
+        autoBrake(frontLeftWheel); reverse(frontLeftWheel);
 
         backLeftWheel = hardwareMap.get(DcMotor.class, "backLeft");
-        backLeftWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        autoBrake(backLeftWheel);
 
         frontRightWheel = hardwareMap.get(DcMotor.class, "frontRight");
-        frontRightWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        autoBrake(frontRightWheel);
 
         backRightWheel = hardwareMap.get(DcMotor.class, "backRight");
-        backRightWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        backRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        backRightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        autoBrake(backRightWheel);
 
         intakeExtender = hardwareMap.get(DcMotor.class, "intakeMotor");
-        intakeExtender.setDirection(DcMotorSimple.Direction.REVERSE);
-        intakeExtender.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        intakeExtender.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        intakeExtender.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        autoBrake(intakeExtender); reverse(intakeExtender);
 
         linearSlide = hardwareMap.get(DcMotor.class, "linearSlide");
-        linearSlide.setDirection(DcMotorSimple.Direction.REVERSE);
-        linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linearSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        reverse(linearSlide);
+        resetTicks(linearSlide);
 
         sweeper = hardwareMap.get(CRServo.class, "sweeper");
         sweeper.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -56,6 +64,8 @@ abstract class Robot extends LinearOpMode {
 
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         gyro = new Gyro2(imu, this);
+
+        dumperServo = hardwareMap.get(Servo.class, "dumperServo");
     }
 }
 
