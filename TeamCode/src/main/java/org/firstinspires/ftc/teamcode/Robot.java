@@ -38,24 +38,24 @@ abstract class Robot extends LinearOpMode {
 //        backRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        backRightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        intakeExtender = hardwareMap.get(DcMotor.class, "intakeMotor");
-        intakeExtender.setDirection(DcMotorSimple.Direction.REVERSE);
-        intakeExtender.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        intakeExtender = hardwareMap.get(DcMotor.class, "intakeMotor");
+//        intakeExtender.setDirection(DcMotorSimple.Direction.REVERSE);
+//        intakeExtender.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        intakeExtender.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        intakeExtender.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        linearSlide = hardwareMap.get(DcMotor.class, "linearSlide");
-        linearSlide.setDirection(DcMotorSimple.Direction.REVERSE);
-        linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linearSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        sweeper = hardwareMap.get(CRServo.class, "sweeper");
-        sweeper.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        sweeperRotator = hardwareMap.get(Servo.class, "sweeperRotator");
-
-        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
-        gyro = new Gyro2(imu, this);
+//        linearSlide = hardwareMap.get(DcMotor.class, "linearSlide");
+//        linearSlide.setDirection(DcMotorSimple.Direction.REVERSE);
+//        linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        linearSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//
+//        sweeper = hardwareMap.get(CRServo.class, "sweeper");
+//        sweeper.setDirection(DcMotorSimple.Direction.REVERSE);
+//
+//        sweeperRotator = hardwareMap.get(Servo.class, "sweeperRotator");
+//
+//        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
+//        gyro = new Gyro2(imu, this);
     }
 }
 
