@@ -51,9 +51,27 @@ public class LinearSlide {
                 if (ticks == 4720) {
                     isExtended = true;
                 }
-                // 4320, 4720
                 double power = ((-1 / 400.0) * (ticks) + 11.8) / 4;
                 operationMode.linearSlide.setPower(power);
+//
+//                // (TICKS_TO_EQUATION, 1), (MAX_TICKS, 0)
+//
+//                int x1 = 4320, y1 = 1;
+//                int x2 = 4720, y2 = 0;
+//
+//                double slope = (double) (y1 - y2) / (x1 - x2);
+//
+//                double y_int = y1 - slope * x1;
+//
+//                double power = (slope * (ticks) + y_int) / 4;
+//
+//                operationMode.linearSlide.setPower(power);
+//
+//                x2 += 1;
+//                x1 += 1;
+//                TICKS_TO_START_EQUATION += 1;
+//                // y = mx + b
+//                // b = y - mx
             }
         }
         else if (operationMode.linearSlide.getCurrentPosition() > 26) {
