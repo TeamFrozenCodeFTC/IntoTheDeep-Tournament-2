@@ -43,8 +43,8 @@ public class OperationMode extends Robot {
 
             // Get ticks to inches ratio
             telemetry.addData("frontLeft", backRightWheel.getCurrentPosition());
-            telemetry.addData("ticks", intakeExtender.getCurrentPosition());
-            telemetry.addData("linear slide ticks", linearSlide.getCurrentPosition());
+            telemetry.addData("intake ticks", intakeExtender.getCurrentPosition());
+            telemetry.addData("linear slide ticks", linearSlideMotor.getCurrentPosition());
             telemetry.addData("dumper Servo", dumperServo.getPosition());
             // get multiple wheels for accuracy?
             telemetry.update();

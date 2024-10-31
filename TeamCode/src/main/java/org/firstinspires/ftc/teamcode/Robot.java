@@ -14,7 +14,7 @@ public abstract class Robot extends LinearOpMode {
     DcMotor frontRightWheel;
     DcMotor backRightWheel;
 
-    DcMotor linearSlide;
+    DcMotor linearSlideMotor;
 
     DcMotor intakeExtender;
     CRServo sweeper;
@@ -23,6 +23,9 @@ public abstract class Robot extends LinearOpMode {
     Gyro2 gyro;
 
     Servo dumperServo;
+
+    LinearSlide linearSlide;
+    Intake intake;
 
     private void autoBrake(DcMotor motor) {
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -56,9 +59,9 @@ public abstract class Robot extends LinearOpMode {
         autoBrake(intakeExtender);
         reverse(intakeExtender);
 
-        linearSlide = hardwareMap.get(DcMotor.class, "linearSlide");
-        reverse(linearSlide);
-        resetTicks(linearSlide);
+        linearSlideMotor = hardwareMap.get(DcMotor.class, "linearSlide");
+        reverse(linearSlideMotor);
+        resetTicks(linearSlideMotor);
 
         sweeper = hardwareMap.get(CRServo.class, "sweeper");
         sweeper.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -70,5 +73,14 @@ public abstract class Robot extends LinearOpMode {
         gyro.startGyro();
 
         dumperServo = hardwareMap.get(Servo.class, "dumperServo");
+
+//        new Thread(() -> {
+//            while (true) {
+//                this.linearSlide.moveSlide();
+//                sleep(10);
+//            }
+//        }).start();
+        linearSlide = new LinearSlide(this);
+        intake = new Intake(this);
     }
 }

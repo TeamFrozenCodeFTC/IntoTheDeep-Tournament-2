@@ -5,19 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 // Reference: RobotAutoDriveByGyro_Linear
 // Use combination of gyro and encoders to drive and turn accurately.
 public abstract class Autonomous extends Robot {
-    LinearSlide linearSlide;
-    Intake intake;
-
-    public Autonomous() {
-        this.linearSlide = new LinearSlide(this);
-        new Thread(() -> {
-            while (true) {
-                this.linearSlide.moveSlide();
-            }
-        }).start();
-        this.intake = new Intake(this);
-    }
-
     void goForward(double inches, double power) {
         backRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -104,7 +91,10 @@ public abstract class Autonomous extends Robot {
         frontLeftWheel.setPower(-power);
         frontRightWheel.setPower(power);
 
-        while (Math.abs(gyro.getAngle()) > degrees) {
+        telemetry.addData("angle", gyro.getAngle());
+        telemetry.update();
+
+        while (Math.abs(gyro.getAngle()) < degrees) {
 
         }
 
@@ -122,7 +112,7 @@ public abstract class Autonomous extends Robot {
             frontLeftWheel.setPower(power);
             frontRightWheel.setPower(-power);
 
-            while (Math.abs(gyro.getAngle()) > degrees) {
+            while (Math.abs(gyro.getAngle()) < degrees) {
 
             }
 
