@@ -17,30 +17,34 @@ public class Intake {
 
     static final int MIN_TICKS = TICKS_MARGIN;
 
-//    static final int TICKS_TO_INCHES = 200;
+    static final int TICKS_PER_INCH = 445;
 
-//    void waitForExtend() throws InterruptedException {
-//        wait(5);
-//        if (extend) {
-//            while (!isExtended) {
-//                wait(10);
-//            }
-//        }
-//        else {
-//            while (isExtended) {
-//                wait(10);
-//            }
-//        }
-//    }
-//
-//    void moveExtenderInches(double inches) {
-//        new Thread(() -> {
-//            while (operationMode.intakeExtender.getCurrentPosition() > inches * TICKS_TO_INCHES) {
-//                operationMode.intakeExtender.setPower(-1);
-//            }
-//            operationMode.intakeExtender.setPower(0);
-//        }).start();
-//    }
+    double targetTicks;
+
+    void waitForExtend() throws InterruptedException {
+        if (extend) {
+            while (!isExtended) {
+                wait();
+            }
+        }
+        else {
+            while (isExtended) {
+                wait();
+            }
+        }
+    }
+
+    void moveExtenderInches(double inches) {
+        targetTicks = inches * TICKS_PER_INCH;
+        new Thread(() -> {
+            while (operationMode.intakeExtender.getCurrentPosition() > targetTicks) {
+                operationMode.intakeExtender.setPower(-1);
+            }
+            operationMode.intakeExtender.setPower(0);
+
+        }).start();
+
+    }
 
     void sweeperArmOut() {
         operationMode.sweeperRotator.setPosition(SWEEPER_ARM_MAX_POSITION);
@@ -52,8 +56,6 @@ public class Intake {
 
     void spinSweeperIn() {
         operationMode.sweeper.setPower(0.5);
-        operationMode.telemetry.addData(">", "x");
-        operationMode.telemetry.update();
     }
 
     void spinSweeperOut() {

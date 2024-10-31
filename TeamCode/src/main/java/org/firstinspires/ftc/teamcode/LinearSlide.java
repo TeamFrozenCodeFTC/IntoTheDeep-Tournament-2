@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
-public class LinearSlide {
+public class  LinearSlide {
     Robot operationMode;
 
     public LinearSlide(Robot operationMode) {
@@ -30,56 +29,40 @@ public class LinearSlide {
     void waitForExtend() throws InterruptedException {
         if (extend) {
             while (!isExtended) {
-                wait(10);
+                wait();
             }
         }
         else {
             while (isExtended) {
-                wait(10);
+                wait();
             }
         }
     }
 
     void moveSlide() {
         if (extend) {
-            int ticks = operationMode.linearSlide.getCurrentPosition();
+            int ticks = Math.abs(operationMode.linearSlideMotor.getCurrentPosition());
+
+            operationMode.telemetry.addData("moving slide", ticks);
+            operationMode.telemetry.update();
 
             if (ticks < 4320) {
-                operationMode.linearSlide.setPower(1);
+                operationMode.linearSlideMotor.setPower(1);
             }
             else {
-                if (ticks == 4720) {
+                if (ticks >= 4720) {
                     isExtended = true;
                 }
                 double power = ((-1 / 400.0) * (ticks) + 11.8) / 4;
-                operationMode.linearSlide.setPower(power);
-//
-//                // (TICKS_TO_EQUATION, 1), (MAX_TICKS, 0)
-//
-//                int x1 = 4320, y1 = 1;
-//                int x2 = 4720, y2 = 0;
-//
-//                double slope = (double) (y1 - y2) / (x1 - x2);
-//
-//                double y_int = y1 - slope * x1;
-//
-//                double power = (slope * (ticks) + y_int) / 4;
-//
-//                operationMode.linearSlide.setPower(power);
-//
-//                x2 += 1;
-//                x1 += 1;
-//                TICKS_TO_START_EQUATION += 1;
-//                // y = mx + b
-//                // b = y - mx
+                operationMode.linearSlideMotor.setPower(power);
             }
         }
-        else if (operationMode.linearSlide.getCurrentPosition() > 26) {
-            operationMode.linearSlide.setPower(-0.3);
+        else if (operationMode.linearSlideMotor.getCurrentPosition() > 26) {
+            operationMode.linearSlideMotor.setPower(-0.3);
             isExtended = false;
         }
         else {
-            operationMode.linearSlide.setPower(0);
+            operationMode.linearSlideMotor.setPower(0);
         }
     }
 
@@ -115,7 +98,25 @@ public class LinearSlide {
 //            }
 //        }).start();
 //    }
-
+//
+//                // (TICKS_TO_EQUATION, 1), (MAX_TICKS, 0)
+//
+//                int x1 = 4320, y1 = 1;
+//                int x2 = 4720, y2 = 0;
+//
+//                double slope = (double) (y1 - y2) / (x1 - x2);
+//
+//                double y_int = y1 - slope * x1;
+//
+//                double power = (slope * (ticks) + y_int) / 4;
+//
+//                operationMode.linearSlide.setPower(power);
+//
+//                x2 += 1;
+//                x1 += 1;
+//                TICKS_TO_START_EQUATION += 1;
+//                // y = mx + b
+//                // b = y - mx
     void retract() {
         extend = false;
     }
