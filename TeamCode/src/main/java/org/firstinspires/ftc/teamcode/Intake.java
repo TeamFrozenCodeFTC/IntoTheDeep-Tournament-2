@@ -52,12 +52,19 @@ public class Intake {
         }
     }
 
-    void sweeperArmOut() {
+    void armOut() {
         operationMode.sweeperRotator.setPosition(ARM_MAX_POSITION);
     }
 
-    void sweeperArmIn() {
+    void armIn() {
         operationMode.sweeperRotator.setPosition(ARM_MIN_POSITION);
+    }
+
+    void waitForArm() throws InterruptedException {
+        while (operationMode.sweeperRotator.getPosition() != ARM_MIN_POSITION
+                || operationMode.sweeperRotator.getPosition() != ARM_MAX_POSITION) {
+            wait();
+        }
     }
 
     void spinSweeperIn() {
@@ -66,5 +73,9 @@ public class Intake {
 
     void spinSweeperOut() {
         operationMode.sweeper.setPower(-1);
+    }
+
+    void stopSweeper() {
+        operationMode.sweeper.setPower(0);
     }
 }

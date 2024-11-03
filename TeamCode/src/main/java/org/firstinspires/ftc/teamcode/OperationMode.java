@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name="Main", group="Linear OpMode")
 public class OperationMode extends Robot {
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
         telemetry.addData("Program", "Started");
 
         initHardware();
@@ -16,7 +16,7 @@ public class OperationMode extends Robot {
         SpecimenControls specimenControls = new SpecimenControls(this);
         WheelControls wheelControls = new WheelControls(this);
 
-        intake.sweeperArmIn();
+        intake.armIn();
         intake.moveExtenderBack(); // !?
 
         telemetry.addData("Robot", "Initialized");
@@ -28,19 +28,9 @@ public class OperationMode extends Robot {
             wheelControls.control();
             specimenControls.control();
 
-//            if (gamepad2.dpad_down) {
-//                intakeControls.intake.sweeperArmIn();
-//                sleep(1000);
-//                intakeControls.intake.spinSweeperOut();
-//                sleep(1000);
-//                intakeControls.intake.spinSweeperIn();
-//                sleep(200);
-//                intakeControls.intake.stopSweeper();
-//                intakeControls.intake.sweeperArmOut();
-//                sleep(200);
-//                linearSlideControls.linearSlide.extend();
-//                sleep(5000);
-//            }
+            if (gamepad2.dpad_down) {
+                raiseSpecimen();
+            }
 
             // Get ticks to inches ratio
             telemetry.addData("frontLeft ticks", backRightWheel.getCurrentPosition());

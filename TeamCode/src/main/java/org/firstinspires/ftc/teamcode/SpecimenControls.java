@@ -19,10 +19,10 @@ public class SpecimenControls {
 
     void linearSlide() {
         if (operationMode.gamepad2.right_bumper) {
-            operationMode.linearSlide.extend();
+            operationMode.linearSlide.raise(2);
         }
         else if (operationMode.gamepad2.left_bumper) {
-            operationMode.linearSlide.retract();
+            operationMode.linearSlide.lower();
         }
     }
 
@@ -51,10 +51,10 @@ public class SpecimenControls {
 
     void intakeArm() {
         if (operationMode.gamepad2.right_stick_y < 0) {
-            operationMode.intake.sweeperArmOut();
+            operationMode.intake.armOut();
         }
         else if (operationMode.gamepad2.right_stick_y > 0) {
-            operationMode.intake.sweeperArmIn();
+            operationMode.intake.armIn();
         }
     }
 

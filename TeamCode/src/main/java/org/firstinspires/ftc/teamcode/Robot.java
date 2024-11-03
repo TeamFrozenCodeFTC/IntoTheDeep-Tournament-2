@@ -76,12 +76,18 @@ public abstract class Robot extends LinearOpMode {
 
         linearSlide = new LinearSlide(this);
         intake = new Intake(this);
+    }
 
-//        new Thread(() -> {
-//            while (true) {
-//                this.linearSlide.moveSlide();
-//                sleep(10);
-//            }
-//        }).start();
+    void raiseSpecimen() throws InterruptedException {
+        intake.armIn();
+        intake.moveExtenderBack();
+        intake.waitForExtension();
+        intake.waitForArm();
+
+        intake.spinSweeperOut();
+        sleep(2000);
+        intake.stopSweeper();
+        linearSlide.raise(2);
+        linearSlide.waitForExtension();
     }
 }
