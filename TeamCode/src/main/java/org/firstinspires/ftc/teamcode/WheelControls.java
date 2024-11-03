@@ -23,7 +23,7 @@ public class WheelControls {
         return Math.pow(power, SPEED_FACTOR);
     }
 
-    void wheelControls() {
+    void control() {
         horizontalSlide();
         forwardAndBackward();
         pivot();
@@ -47,26 +47,6 @@ public class WheelControls {
 
         controls.clear();
     }
-
-//    void slowControl() {
-//        boolean slow = operationMode.gamepad1.left_bumper;
-//        if (slow) {
-//            frontLeftPower *= slowerFactor;
-//            frontRightPower *= slowerFactor;
-//            backLeftPower *= slowerFactor;
-//            backRightPower *= slowerFactor;
-//        }
-//    }
-//
-//    void boostControl() {
-//        boolean boost = operationMode.gamepad1.right_bumper;
-//        if (boost) {
-//            frontLeftPower *= boostFactor;
-//            frontRightPower *= boostFactor;
-//            backLeftPower *= boostFactor;
-//            backRightPower *= boostFactor;
-//        }
-//    }
 
     void pivot() {
         double pivot = operationMode.gamepad1.right_stick_x;

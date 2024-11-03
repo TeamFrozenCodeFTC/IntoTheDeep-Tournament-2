@@ -74,13 +74,14 @@ public abstract class Robot extends LinearOpMode {
 
         dumperServo = hardwareMap.get(Servo.class, "dumperServo");
 
+        linearSlide = new LinearSlide(this);
+        intake = new Intake(this);
+
 //        new Thread(() -> {
 //            while (true) {
 //                this.linearSlide.moveSlide();
 //                sleep(10);
 //            }
 //        }).start();
-        linearSlide = new LinearSlide(this);
-        intake = new Intake(this);
     }
 }
