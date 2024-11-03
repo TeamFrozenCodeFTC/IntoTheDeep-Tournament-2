@@ -1,0 +1,6 @@
+TODO Create folder/packages?
+create automations
+
+TODO portfolio x^4 controls graph speed power
+
+maybe in submersible lock allow to control intakeExtender so two people arent doing the same thing

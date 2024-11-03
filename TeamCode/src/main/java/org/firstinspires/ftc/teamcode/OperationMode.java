@@ -6,47 +6,37 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name="Main", group="Linear OpMode")
 public class OperationMode extends Robot {
     @Override
-    public void runOpMode() {
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
+    public void runOpMode() throws InterruptedException {
+        telemetry.addData("Program", "Started");
 
         initHardware();
 
-        IntakeControls intakeControls = new IntakeControls(this);
-        LinearSlideControls linearSlideControls = new LinearSlideControls(this);
-        WheelControls movement = new WheelControls(this);
+        telemetry.addData("Hardware", "Initialized");
+
+        SpecimenControls specimenControls = new SpecimenControls(this);
+        WheelControls wheelControls = new WheelControls(this);
+
+        intake.armIn();
+        intake.moveExtenderBack(); // !?
+
+        telemetry.addData("Robot", "Initialized");
+        telemetry.update();
 
         waitForStart();
 
-        intakeControls.intake.sweeperArmIn();
-//        intakeControls.intake.moveExtenderBack();
-
         while (opModeIsActive()) {
-            movement.wheelControls();
-            intakeControls.control();
-            linearSlideControls.control();
-            linearSlideControls.linearSlide.moveSlide();
+            wheelControls.control();
+            specimenControls.control();
 
-//            if (gamepad2.dpad_down) {
-//                intakeControls.intake.sweeperArmIn();
-//                sleep(1000);
-//                intakeControls.intake.spinSweeperOut();
-//                sleep(1000);
-//                intakeControls.intake.spinSweeperIn();
-//                sleep(200);
-//                intakeControls.intake.stopSweeper();
-//                intakeControls.intake.sweeperArmOut();
-//                sleep(200);
-//                linearSlideControls.linearSlide.extend();
-//                sleep(5000);
-//            }
+            if (gamepad2.dpad_down) {
+                raiseSpecimen();
+            }
 
             // Get ticks to inches ratio
-            telemetry.addData("frontLeft", backRightWheel.getCurrentPosition());
+            telemetry.addData("frontLeft ticks", backRightWheel.getCurrentPosition());
             telemetry.addData("intake ticks", intakeExtender.getCurrentPosition());
             telemetry.addData("linear slide ticks", linearSlideMotor.getCurrentPosition());
             telemetry.addData("dumper Servo", dumperServo.getPosition());
-            // get multiple wheels for accuracy?
             telemetry.update();
         }
     }

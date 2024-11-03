@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 public class Intake {
     Robot operationMode;
 
@@ -9,49 +7,64 @@ public class Intake {
         this.operationMode = operationMode;
     }
 
-    static final double SWEEPER_ARM_MIN_POSITION = .25;
-    static final double SWEEPER_ARM_MAX_POSITION = .92;
+    static final double ARM_MIN_POSITION = .25;
+    static final double ARM_MAX_POSITION = .92;
 
     static final int MAX_TICKS = 3500;
     static final int TICKS_MARGIN = 100;
 
-    static final int MIN_TICKS = TICKS_MARGIN;
-
     static final int TICKS_PER_INCH = 445;
 
-    double targetTicks;
+    static final int MIN_TICKS = TICKS_MARGIN;
 
-    void waitForExtend() throws InterruptedException {
-        if (extend) {
-            while (!isExtended) {
-                wait();
-            }
-        }
-        else {
-            while (isExtended) {
-                wait();
-            }
-        }
-    }
+    boolean completedExtension = true;
 
     void moveExtenderInches(double inches) {
-        targetTicks = inches * TICKS_PER_INCH;
         new Thread(() -> {
+            completedExtension = false;
+            double targetTicks = Math.max(Math.min(inches * TICKS_PER_INCH, MAX_TICKS), MIN_TICKS);
+
+            int powerDirection = (operationMode.intakeExtender.getCurrentPosition() < targetTicks) ? 1 : -1;
+
             while (operationMode.intakeExtender.getCurrentPosition() > targetTicks) {
+                operationMode.intakeExtender.setPower(powerDirection);
+            }
+            operationMode.intakeExtender.setPower(0);
+            completedExtension = true;
+        }).start();
+    }
+
+    void moveExtenderBack() {
+        completedExtension = false;
+
+        new Thread(() -> {
+            while (operationMode.intakeExtender.getCurrentPosition() > MIN_TICKS) {
                 operationMode.intakeExtender.setPower(-1);
             }
             operationMode.intakeExtender.setPower(0);
-
+            completedExtension = true;
         }).start();
-
     }
 
-    void sweeperArmOut() {
-        operationMode.sweeperRotator.setPosition(SWEEPER_ARM_MAX_POSITION);
+    void waitForExtension() throws InterruptedException {
+        while (!completedExtension) {
+            wait();
+        }
     }
 
-    void sweeperArmIn() {
-        operationMode.sweeperRotator.setPosition(SWEEPER_ARM_MIN_POSITION);
+    void armOut() {
+        operationMode.sweeperRotator.setPosition(ARM_MAX_POSITION);
+    }
+
+    void armIn() {
+        operationMode.sweeperRotator.setPosition(ARM_MIN_POSITION);
+    }
+
+    void waitForArm() throws InterruptedException {
+        while (operationMode.sweeperRotator.getPosition() != ARM_MIN_POSITION
+                || operationMode.sweeperRotator.getPosition() != ARM_MAX_POSITION) {
+            wait();
+        }
     }
 
     void spinSweeperIn() {
@@ -61,55 +74,8 @@ public class Intake {
     void spinSweeperOut() {
         operationMode.sweeper.setPower(-1);
     }
-}
 
-class IntakeControls {
-    OperationMode operationMode;
-    Intake intake;
-
-    public IntakeControls(OperationMode operationMode) {
-        this.operationMode = operationMode;
-        this.intake = new Intake(operationMode);
-    }
-
-    void control() {
-        intakeExtenderControls();
-        sweeperArmControls();
-        sweeperControls();
-    }
-
-    void intakeExtenderControls() {
-        double power = -operationMode.gamepad2.left_stick_y;
-        double position = operationMode.intakeExtender.getCurrentPosition();
-
-        if (position > Intake.MAX_TICKS && power > 0) {
-            power = 0;
-        }
-        if (position < Intake.MIN_TICKS && power < 0) {
-            power = 0;
-        }
-
-        operationMode.intakeExtender.setPower(power);
-    }
-
-    void sweeperArmControls() {
-        if (operationMode.gamepad2.right_stick_y < 0) {
-            intake.sweeperArmOut();
-        }
-        else if (operationMode.gamepad2.right_stick_y > 0) {
-            intake.sweeperArmIn();
-        }
-    }
-
-    void sweeperControls() {
-        if (operationMode.gamepad2.square) {
-            intake.spinSweeperOut();
-        }
-        else if (operationMode.gamepad2.circle) {
-            intake.spinSweeperIn();
-        }
-        else {
-            operationMode.sweeper.setPower(0);
-        }
+    void stopSweeper() {
+        operationMode.sweeper.setPower(0);
     }
 }
