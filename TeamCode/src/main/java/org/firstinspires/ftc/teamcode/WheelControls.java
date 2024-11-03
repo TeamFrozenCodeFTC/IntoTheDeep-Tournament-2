@@ -10,35 +10,35 @@ public class WheelControls {
         this.operationMode = operationMode;
     }
 
-    double frontLeftPower = 0;
-    double backLeftPower = 0;
-    double backRightPower = 0;
+    double frontLeftPower  = 0;
+    double backLeftPower   = 0;
+    double backRightPower  = 0;
     double frontRightPower = 0;
 
     ArrayList<Double[][]> controls = new ArrayList<>();
 
-    double slowerFactor = 0.25;
-    double factor = 0.75;
-    double boostFactor = 10;
+    final static double SPEED_FACTOR = 4;
+
+    double powerEquation(double power) {
+        return Math.pow(power, SPEED_FACTOR);
+    }
 
     void wheelControls() {
-        horizontalSlideControl();
-        verticalControl();
-        pivotControl();
+        horizontalSlide();
+        forwardAndBackward();
+        pivot();
+        submerseableLock();
 
-        frontLeftPower = 0;
-        backLeftPower = 0;
-        backRightPower = 0;
+        frontLeftPower  = 0;
+        backLeftPower   = 0;
+        backRightPower  = 0;
         frontRightPower = 0;
         for (Double[][] control : controls) {
-            frontLeftPower += control[0][0] * factor;
-            backLeftPower += control[1][0] * factor;
-            backRightPower += control[1][1] * factor;
-            frontRightPower += control[0][1] * factor;
+            frontLeftPower  += powerEquation(control[0][0]);
+            backLeftPower   += powerEquation(control[1][0]);
+            backRightPower  += powerEquation(control[1][1]);
+            frontRightPower += powerEquation(control[0][1]);
         }
-
-        boostControl();
-        slowControl();
 
         operationMode.frontLeftWheel.setPower(frontLeftPower);
         operationMode.backLeftWheel.setPower(backLeftPower);
@@ -48,27 +48,27 @@ public class WheelControls {
         controls.clear();
     }
 
-    void slowControl() {
-        boolean slow = operationMode.gamepad1.left_bumper;
-        if (slow) {
-            frontLeftPower *= slowerFactor;
-            frontRightPower *= slowerFactor;
-            backLeftPower *= slowerFactor;
-            backRightPower *= slowerFactor;
-        }
-    }
+//    void slowControl() {
+//        boolean slow = operationMode.gamepad1.left_bumper;
+//        if (slow) {
+//            frontLeftPower *= slowerFactor;
+//            frontRightPower *= slowerFactor;
+//            backLeftPower *= slowerFactor;
+//            backRightPower *= slowerFactor;
+//        }
+//    }
+//
+//    void boostControl() {
+//        boolean boost = operationMode.gamepad1.right_bumper;
+//        if (boost) {
+//            frontLeftPower *= boostFactor;
+//            frontRightPower *= boostFactor;
+//            backLeftPower *= boostFactor;
+//            backRightPower *= boostFactor;
+//        }
+//    }
 
-    void boostControl() {
-        boolean boost = operationMode.gamepad1.right_bumper;
-        if (boost) {
-            frontLeftPower *= boostFactor;
-            frontRightPower *= boostFactor;
-            backLeftPower *= boostFactor;
-            backRightPower *= boostFactor;
-        }
-    }
-
-    void pivotControl() {
+    void pivot() {
         double pivot = operationMode.gamepad1.right_stick_x;
 
         controls.add(new Double[][] {
@@ -77,7 +77,7 @@ public class WheelControls {
         });
     }
 
-    void verticalControl() {
+    void forwardAndBackward() {
         double y = -operationMode.gamepad1.left_stick_y;
 
         controls.add(new Double[][] {
@@ -86,15 +86,34 @@ public class WheelControls {
         });
     }
 
-    void horizontalSlideControl() {
-        double leftTrigger = operationMode.gamepad1.left_trigger;
-        double rightTrigger = operationMode.gamepad1.right_trigger;
+    void horizontalSlide() {
+//        double leftTrigger = operationMode.gamepad1.left_trigger;
+//        double rightTrigger = operationMode.gamepad1.right_trigger;
+//
+//        double slide = leftTrigger > rightTrigger ? leftTrigger : -rightTrigger;
 
-        double slide = leftTrigger > rightTrigger ? leftTrigger : -rightTrigger;
+        double slide = operationMode.gamepad1.left_stick_x;
 
         controls.add(new Double[][] {
                 {-slide, +slide},
                 {+slide, -slide}
         });
+    }
+
+    final static double CREEP_SPEED = 0.05;
+    boolean isLockedOnSubmerseable = false;
+
+    void submerseableLock() {
+        // maybe disable verticalControl?
+        if (operationMode.gamepad1.dpad_up) {
+            isLockedOnSubmerseable = !isLockedOnSubmerseable;
+        }
+
+        if (isLockedOnSubmerseable) {
+            controls.add(new Double[][]{
+                    {CREEP_SPEED, CREEP_SPEED},
+                    {CREEP_SPEED, CREEP_SPEED}
+            });
+        }
     }
 }

@@ -21,18 +21,18 @@ public class Intake {
 
     double targetTicks;
 
-    void waitForExtend() throws InterruptedException {
-        if (extend) {
-            while (!isExtended) {
-                wait();
-            }
-        }
-        else {
-            while (isExtended) {
-                wait();
-            }
-        }
-    }
+//    void waitForExtend() throws InterruptedException {
+//        if (extend) {
+//            while (!isExtended) {
+//                wait();
+//            }
+//        }
+//        else {
+//            while (isExtended) {
+//                wait();
+//            }
+//        }
+//    }
 
     void moveExtenderInches(double inches) {
         targetTicks = inches * TICKS_PER_INCH;

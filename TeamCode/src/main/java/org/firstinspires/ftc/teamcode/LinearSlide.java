@@ -7,7 +7,7 @@ public class  LinearSlide {
         this.operationMode = operationMode;
     }
 
-    static final int MAX_TICKS = 4746;
+    static final int MAX_TICKS = 4975;
     static final int TICKS_MARGIN = 26;
 
     static final int TICKS_TO_EQUATION = MAX_TICKS - 426;
@@ -19,11 +19,11 @@ public class  LinearSlide {
     boolean isExtended = false;
 
     void dump() {
-        operationMode.dumperServo.setPosition(0.2);
+        operationMode.dumperServo.setPosition(0.4);
     }
 
     void undump() {
-        operationMode.dumperServo.setPosition(0);
+        operationMode.dumperServo.setPosition(0.25);
     }
 
     void waitForExtend() throws InterruptedException {
@@ -40,25 +40,42 @@ public class  LinearSlide {
     }
 
     void moveSlide() {
+        int ticks = operationMode.linearSlideMotor.getCurrentPosition();
+
         if (extend) {
-            int ticks = Math.abs(operationMode.linearSlideMotor.getCurrentPosition());
-
-            operationMode.telemetry.addData("moving slide", ticks);
-            operationMode.telemetry.update();
-
-            if (ticks < 4320) {
+            if (ticks < 4800) {
                 operationMode.linearSlideMotor.setPower(1);
             }
             else {
-                if (ticks >= 4720) {
+                if (ticks >= MAX) {
                     isExtended = true;
                 }
-                double power = ((-1 / 400.0) * (ticks) + 11.8) / 4;
+//                double power = ((-1 / 400.0) * (ticks) + 11.8) / 4;
+//                operationMode.linearSlideMotor.setPower(power);
+
+                // (MIN, 1) (MAX, 0)
+                // y-y_2/x-x_2
+                int x_1 = MIN;
+                int y_1 = 1;
+                int x_2 = MAX;
+                int y_2 = 0;
+
+                double slope = (double) (y_1 - y_2) / (x_1 - x_2);
+                // y = mx + b
+                // 1 = slope*MIN + b
+                // b = 1 - slope * MIN
+                double y_int = 1 - slope * MIN;
+
+                double power = (slope * ticks + y_int) / 8;
+                operationMode.telemetry.addData("slope", slope);
+                operationMode.telemetry.addData("y_int", y_int);
+                operationMode.telemetry.update();
+
                 operationMode.linearSlideMotor.setPower(power);
             }
         }
-        else if (operationMode.linearSlideMotor.getCurrentPosition() > 26) {
-            operationMode.linearSlideMotor.setPower(-0.3);
+        else if (ticks > 26) {
+            operationMode.linearSlideMotor.setPower(-0.15);
             isExtended = false;
         }
         else {
