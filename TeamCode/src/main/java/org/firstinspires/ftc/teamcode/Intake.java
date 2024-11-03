@@ -19,12 +19,28 @@ public class Intake {
 
     boolean completedExtension = true;
 
-    void moveExtenderInches(double inches) {
+    void moveExtender(double power) {
         new Thread(() -> {
-            completedExtension = false;
+            while (operationMode.intakeExtender.getCurrentPosition() < MAX_TICKS
+                    && operationMode.intakeExtender.getCurrentPosition() > MIN_TICKS) {
+                operationMode.intakeExtender.setPower(power);
+            }
+            operationMode.intakeExtender.setPower(0);
+        }).start();
+    }
+
+    void stopExtender() {
+        operationMode.intakeExtender.setPower(0);
+    }
+
+    void moveExtenderInches(double inches) {
+        completedExtension = false;
+
+        new Thread(() -> {
             double targetTicks = Math.max(Math.min(inches * TICKS_PER_INCH, MAX_TICKS), MIN_TICKS);
 
-            int powerDirection = (operationMode.intakeExtender.getCurrentPosition() < targetTicks) ? 1 : -1;
+            int powerDirection = (
+                    operationMode.intakeExtender.getCurrentPosition() < targetTicks ? 1 : -1);
 
             while (operationMode.intakeExtender.getCurrentPosition() > targetTicks) {
                 operationMode.intakeExtender.setPower(powerDirection);

@@ -6,7 +6,6 @@ public class AutoBlueObservation extends Autonomous {
     public void runOpMode() throws InterruptedException {
 
         initHardware();
-        //Autonomous auto = new Autonomous(this);
 
         waitForStart();
 
@@ -22,6 +21,5 @@ public class AutoBlueObservation extends Autonomous {
 
         turnRight(45,0.5);
         goForward(92,0.5);
-
     }
 }
