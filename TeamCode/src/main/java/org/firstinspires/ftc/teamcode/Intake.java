@@ -62,9 +62,9 @@ public class Intake {
         }).start();
     }
 
-    void waitForExtension() throws InterruptedException {
+    void waitForExtension() {
         while (!completedExtension) {
-            wait();
+
         }
     }
 
@@ -76,10 +76,10 @@ public class Intake {
         operationMode.sweeperRotator.setPosition(ARM_MIN_POSITION);
     }
 
-    void waitForArm() throws InterruptedException {
+    void waitForArm() {
         while (operationMode.sweeperRotator.getPosition() != ARM_MIN_POSITION
                 || operationMode.sweeperRotator.getPosition() != ARM_MAX_POSITION) {
-            wait();
+
         }
     }
 

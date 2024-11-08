@@ -13,10 +13,10 @@ public class WheelControls {
     ArrayList<Double[][]> controls = new ArrayList<>();
 
     // Must allow negative numbers (must be odd)
-    final static int SPEED_FACTOR = 3;
+    final static double SPEED_FACTOR = 0.7;
 
     double powerEquation(double power) {
-        return Math.pow(power, SPEED_FACTOR);
+        return Math.pow(power, 3);
     }
 
     void control() {
@@ -30,10 +30,10 @@ public class WheelControls {
         double backRightPower  = 0;
         double frontRightPower = 0;
         for (Double[][] control : controls) {
-            frontLeftPower  += powerEquation(control[0][0]);
-            backLeftPower   += powerEquation(control[1][0]);
-            backRightPower  += powerEquation(control[1][1]);
-            frontRightPower += powerEquation(control[0][1]);
+            frontLeftPower  += powerEquation(control[0][0]) * SPEED_FACTOR;
+            backLeftPower   += powerEquation(control[1][0]) * SPEED_FACTOR;
+            backRightPower  += powerEquation(control[1][1]) * SPEED_FACTOR;
+            frontRightPower += powerEquation(control[0][1]) * SPEED_FACTOR;
         }
 
         operationMode.frontLeftWheel.setPower(frontLeftPower);
@@ -63,12 +63,12 @@ public class WheelControls {
     }
 
     void horizontalSlide() {
-//        double leftTrigger = operationMode.gamepad1.left_trigger;
-//        double rightTrigger = operationMode.gamepad1.right_trigger;
-//
-//        double slide = leftTrigger > rightTrigger ? leftTrigger : -rightTrigger;
+        double leftTrigger = operationMode.gamepad1.left_trigger;
+        double rightTrigger = operationMode.gamepad1.right_trigger;
 
-        double slide = operationMode.gamepad1.left_stick_x;
+        double slide = leftTrigger > rightTrigger ? leftTrigger : -rightTrigger;
+
+        //double slide = -operationMode.gamepad1.left_stick_x;
 
         controls.add(new Double[][] {
                 {-slide, +slide},
@@ -76,7 +76,7 @@ public class WheelControls {
         });
     }
 
-    final static double CREEP_SPEED = 0.05;
+    final static double CREEP_SPEED = 0.5;
     boolean isLockedOnSubmersible = false;
 
     void submerseableLock() {
@@ -88,18 +88,21 @@ public class WheelControls {
             return;
         }
 
+        operationMode.telemetry.addData("creeping", CREEP_SPEED);
+        operationMode.telemetry.update();
+
         controls.add(new Double[][]{
                 {CREEP_SPEED, CREEP_SPEED},
                 {CREEP_SPEED, CREEP_SPEED}
         });
 
-        double power = -operationMode.gamepad1.left_stick_y;
-
-        if (power != 0) {
-            operationMode.intake.moveExtender(power);
-        }
-        else {
-            operationMode.intake.stopExtender();
-        }
+//        double power = -operationMode.gamepad1.left_stick_y;
+//
+//        if (power != 0) {
+//            operationMode.intake.moveExtender(power);
+//        }
+//        else {
+//            operationMode.intake.stopExtender();
+//        }
     }
 }

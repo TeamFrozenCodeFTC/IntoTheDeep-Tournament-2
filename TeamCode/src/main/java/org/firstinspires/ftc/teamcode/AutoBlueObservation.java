@@ -14,10 +14,8 @@ public class AutoBlueObservation extends Autonomous {
         goForward(46,0.5);
         turnRight(135,0.5);
         goBackward(20,0.5);
-        releaseBlock();
-        setArm(2);
-        tiltDumper();
-        setArm(0);
+
+        scoreSpecimen();
 
         turnRight(45,0.5);
         goForward(92,0.5);
