@@ -24,19 +24,29 @@ public class OperationMode extends Robot {
 
         waitForStart();
 
+        new Thread(() -> {
+            while (opModeIsActive()) {
+                specimenControls.run();
+            }
+        }).start();
+
         while (opModeIsActive()) {
             wheelControls.control();
-            specimenControls.control();
-
-            if (gamepad2.dpad_down) {
-                raiseSpecimen();
-            }
 
             // Get ticks to inches ratio
+            telemetry.addData("linear slide complete", linearSlide.completedExtension);
+            telemetry.addData("intake complete", intake.completedExtension);
             telemetry.addData("frontLeft ticks", backRightWheel.getCurrentPosition());
             telemetry.addData("intake ticks", intakeExtender.getCurrentPosition());
             telemetry.addData("linear slide ticks", linearSlideMotor.getCurrentPosition());
             telemetry.addData("dumper Servo", dumperServo.getPosition());
+            double radians = gyro.getAngle() * Math.PI/180;
+            telemetry.addData("angle",
+                    (float)Math.cos(radians)
+            );
+            telemetry.addData("angle2",
+                     (float)Math.sin(radians)
+            );
             telemetry.update();
         }
     }

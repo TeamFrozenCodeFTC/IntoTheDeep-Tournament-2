@@ -27,9 +27,9 @@ public class  LinearSlide {
     boolean completedExtension = false;
     boolean isRaised = false;
 
-    void waitForExtension() throws InterruptedException {
+    void waitForExtension() {
         while (!completedExtension) {
-            wait();
+
         }
     }
 
@@ -62,7 +62,7 @@ public class  LinearSlide {
 
         new Thread(() -> {
             while (!isRaised && operationMode.linearSlideMotor.getCurrentPosition() > MIN) {
-                operationMode.linearSlideMotor.setPower(-0.15);
+                operationMode.linearSlideMotor.setPower(-0.25);
             }
             operationMode.linearSlideMotor.setPower(0);
             completedExtension = true;

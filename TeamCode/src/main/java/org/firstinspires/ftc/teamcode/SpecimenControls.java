@@ -17,6 +17,16 @@ public class SpecimenControls {
         intakeSweeper();
     }
 
+    void run() {
+        if (operationMode.gamepad2.dpad_down) {
+            operationMode.moveSpecimenToBucket();
+            operationMode.raiseSpecimen();
+        }
+        else {
+            control();
+        }
+    }
+
     void linearSlide() {
         if (operationMode.gamepad2.right_bumper) {
             operationMode.linearSlide.raise(2);
@@ -45,7 +55,6 @@ public class SpecimenControls {
         if (position < Intake.MIN_TICKS && power < 0) {
             power = 0;
         }
-
         operationMode.intakeExtender.setPower(power);
     }
 
