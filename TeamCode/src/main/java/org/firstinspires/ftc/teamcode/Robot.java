@@ -7,25 +7,27 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.autonomous.Gyro2;
+
 // A parent class to all operation modes. Contains the Robot's Hardware but also LinearOpMode.
 public abstract class Robot extends LinearOpMode {
-    DcMotor frontLeftWheel;
-    DcMotor backLeftWheel;
-    DcMotor frontRightWheel;
-    DcMotor backRightWheel;
+    public DcMotor frontLeftWheel;
+    public DcMotor backLeftWheel;
+    public DcMotor frontRightWheel;
+    public DcMotor backRightWheel;
 
-    DcMotor linearSlideMotor;
+    public DcMotor linearSlideMotor;
 
-    DcMotor intakeExtender;
-    CRServo sweeper;
-    Servo sweeperRotator;
+    public DcMotor intakeExtender;
+    public CRServo sweeper;
+    public Servo sweeperRotator;
 
-    Gyro2 gyro;
+    public Gyro2 gyro;
 
-    Servo dumperServo;
+    public Servo dumperServo;
 
-    LinearSlide linearSlide;
-    Intake intake;
+    public LinearSlide linearSlide;
+    public Intake intake;
 
     private void autoBrake(DcMotor motor) {
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -40,7 +42,7 @@ public abstract class Robot extends LinearOpMode {
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    void initHardware() {
+    public void initHardware() {
         frontLeftWheel = hardwareMap.get(DcMotor.class, "frontLeft");
         autoBrake(frontLeftWheel);
         reverse(frontLeftWheel);
@@ -76,20 +78,25 @@ public abstract class Robot extends LinearOpMode {
 
         linearSlide = new LinearSlide(this);
         intake = new Intake(this);
+
+        intake.armIn();
+        intake.moveExtenderBack();
+        linearSlide.undump();
     }
 
-    void raiseSpecimen() {
+    public void raiseSpecimen() {
         linearSlide.raise(2);
+        sleep(500);
         linearSlide.waitForExtension();
     }
 
-    void dumpSpecimen() {
+    public void dumpSpecimen() {
         linearSlide.dump();
         sleep(2000);
         linearSlide.undump();
     }
 
-    void moveSpecimenToBucket() {
+    public void moveSpecimenToBucket() {
         intake.armIn();
         intake.moveExtenderBack();
         intake.waitForExtension();

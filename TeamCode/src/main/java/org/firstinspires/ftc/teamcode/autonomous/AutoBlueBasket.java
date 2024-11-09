@@ -1,19 +1,15 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
-public class AutoBlueObservation extends Autonomous {
+public class AutoBlueBasket extends Autonomous {
     @Override
     public void runOpMode() throws InterruptedException {
-
         initHardware();
-
         waitForStart();
 
-        goForward(20,0.5);
-        turnLeft(90,0.5);
-        goForward(46,0.5);
-        turnRight(135,0.5);
-        goBackward(20,0.5);
+        goForward(24,0.5);
+        turnRight(42,0.5);
+        goBackward(24,0.5);
 
         scoreSpecimen();
 

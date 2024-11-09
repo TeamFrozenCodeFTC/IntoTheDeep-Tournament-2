@@ -19,7 +19,7 @@ public class Intake {
 
     boolean completedExtension = true;
 
-    void moveExtender(double power) {
+    public void moveExtender(double power) {
         new Thread(() -> {
             while (operationMode.intakeExtender.getCurrentPosition() < MAX_TICKS
                     && operationMode.intakeExtender.getCurrentPosition() > MIN_TICKS) {
@@ -29,11 +29,11 @@ public class Intake {
         }).start();
     }
 
-    void stopExtender() {
+    public void stopExtender() {
         operationMode.intakeExtender.setPower(0);
     }
 
-    void moveExtenderInches(double inches) {
+    public void moveExtenderInches(double inches) {
         completedExtension = false;
 
         new Thread(() -> {
@@ -50,7 +50,7 @@ public class Intake {
         }).start();
     }
 
-    void moveExtenderBack() {
+    public void moveExtenderBack() {
         completedExtension = false;
 
         new Thread(() -> {
@@ -62,36 +62,36 @@ public class Intake {
         }).start();
     }
 
-    void waitForExtension() {
+    public void waitForExtension() {
         while (!completedExtension) {
 
         }
     }
 
-    void armOut() {
+    public void armOut() {
         operationMode.sweeperRotator.setPosition(ARM_MAX_POSITION);
     }
 
-    void armIn() {
+    public void armIn() {
         operationMode.sweeperRotator.setPosition(ARM_MIN_POSITION);
     }
 
-    void waitForArm() {
+    public void waitForArm() {
         while (operationMode.sweeperRotator.getPosition() != ARM_MIN_POSITION
                 || operationMode.sweeperRotator.getPosition() != ARM_MAX_POSITION) {
 
         }
     }
 
-    void spinSweeperIn() {
+    public void spinSweeperIn() {
         operationMode.sweeper.setPower(0.5);
     }
 
-    void spinSweeperOut() {
+    public void spinSweeperOut() {
         operationMode.sweeper.setPower(-1);
     }
 
-    void stopSweeper() {
+    public void stopSweeper() {
         operationMode.sweeper.setPower(0);
     }
 }

@@ -1,12 +1,13 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.Robot;
 
 @TeleOp
 public class ForwordCalabration extends Robot {
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         initHardware();
         waitForStart();
         while(opModeIsActive()) {
@@ -15,8 +16,7 @@ public class ForwordCalabration extends Robot {
                 frontRightWheel.setPower(0.5);
                 backLeftWheel.setPower(0.5);
                 backRightWheel.setPower(0.5);
-
-            } else{
+            } else {
                 frontLeftWheel.setPower(0);
                 frontRightWheel.setPower(0);
                 backLeftWheel.setPower(0);

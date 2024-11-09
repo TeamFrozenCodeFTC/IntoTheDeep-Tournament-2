@@ -1,10 +1,13 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.teleOp;
+
+import org.firstinspires.ftc.teamcode.Intake;
+import org.firstinspires.ftc.teamcode.Robot;
 
 // Uses gamepad2
 public class SpecimenControls {
-    OperationMode operationMode;
+    Robot operationMode;
 
-    public SpecimenControls(OperationMode operationMode) {
+    public SpecimenControls(Robot operationMode) {
         this.operationMode = operationMode;
     }
 
@@ -20,7 +23,11 @@ public class SpecimenControls {
     void run() {
         if (operationMode.gamepad2.dpad_down) {
             operationMode.moveSpecimenToBucket();
+            operationMode.telemetry.addData("raising", "specimen");
+            operationMode.telemetry.update();
             operationMode.raiseSpecimen();
+            operationMode.telemetry.addData("raised", "specimen");
+            operationMode.telemetry.update();
         }
         else {
             control();

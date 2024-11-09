@@ -1,7 +1,7 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
-public class TurnLeftTest extends Autonomous{
+public class TurnLeftTest extends Autonomous {
     @Override
     public void runOpMode() throws InterruptedException {
         initHardware();
