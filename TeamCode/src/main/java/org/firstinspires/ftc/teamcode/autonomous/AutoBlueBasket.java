@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
 public class AutoBlueBasket extends Autonomous {
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         initHardware();
         waitForStart();
 

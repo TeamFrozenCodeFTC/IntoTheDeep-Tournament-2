@@ -10,12 +10,12 @@ public class Intake {
     static final double ARM_MIN_POSITION = .25;
     static final double ARM_MAX_POSITION = .92;
 
-    static final int MAX_TICKS = 3500;
-    static final int TICKS_MARGIN = 100;
+    public static final int MAX_TICKS = 3500;
+    public static final int TICKS_MARGIN = 100;
 
-    static final int TICKS_PER_INCH = 445;
+    public static final int TICKS_PER_INCH = 445;
 
-    static final int MIN_TICKS = TICKS_MARGIN;
+    public static final int MIN_TICKS = TICKS_MARGIN;
 
     boolean completedExtension = true;
 

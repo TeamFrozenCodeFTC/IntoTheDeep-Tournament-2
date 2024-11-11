@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Robot;
 
 
-@TeleOp(name="RelativeControls", group="Linear OpMode")
+@TeleOp
 public class RelativeControls extends Robot {
     @Override
     public void runOpMode() {

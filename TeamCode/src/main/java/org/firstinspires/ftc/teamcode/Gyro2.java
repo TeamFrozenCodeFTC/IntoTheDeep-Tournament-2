@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autonomous;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -45,16 +45,16 @@ public class Gyro2 {
         if(last >= 0 && current >= 0) {
             angle += current - last;
             storedAngle += current - last;
-        } else if(last < 0 && current < 0) {
+        } else if (last < 0 && current < 0) {
             angle += current - last;
             storedAngle += current - last;
-        } else if(last >= 90 && current <= -90) {
+        } else if (last >= 90 && current <= -90) {
             angle += current + 180 + 180 - last;
             storedAngle += current + 180 + 180 - last;
-        } else if(last >= 0 && last < 90 && current > -90 && current < 0) {
+        } else if (last >= 0 && last < 90 && current > -90 && current < 0) {
             angle -= last - current;
             storedAngle -= last - current;
-        } else if(current >= 90 && last <= -90) {
+        } else if (current >= 90 && last <= -90) {
             angle -= last + 180 + 180 - current;
             storedAngle -= last + 180 + 180 - current;
         } else if (current >= 0 && current < 90 && last > -90 && last < 0) {

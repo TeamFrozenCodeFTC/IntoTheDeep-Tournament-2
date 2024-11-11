@@ -1,17 +1,17 @@
-package org.firstinspires.ftc.teamcode.autonomous;
+package org.firstinspires.ftc.teamcode.teleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
 @TeleOp
-public class ForwordCalabration extends Robot {
+public class ForwardCalibration extends Robot {
     @Override
     public void runOpMode() {
         initHardware();
         waitForStart();
         while(opModeIsActive()) {
-            if (gamepad1.a){
+            if (gamepad1.a) {
                 frontLeftWheel.setPower(0.5);
                 frontRightWheel.setPower(0.5);
                 backLeftWheel.setPower(0.5);

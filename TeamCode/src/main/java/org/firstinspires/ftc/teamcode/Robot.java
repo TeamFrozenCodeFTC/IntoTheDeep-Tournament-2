@@ -7,8 +7,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.autonomous.Gyro2;
-
 // A parent class to all operation modes. Contains the Robot's Hardware but also LinearOpMode.
 public abstract class Robot extends LinearOpMode {
     public DcMotor frontLeftWheel;
@@ -106,6 +104,4 @@ public abstract class Robot extends LinearOpMode {
         sleep(2000);
         intake.stopSweeper();
     }
-
-
 }

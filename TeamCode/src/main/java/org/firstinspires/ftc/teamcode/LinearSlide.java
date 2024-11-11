@@ -46,7 +46,7 @@ public class  LinearSlide {
                 double slope = (double) (y1 - y2) / (x1 - x2);
                 double y_int = 1 - slope * TICKS_TO_EQUATION;
 
-                double ticks =  operationMode.linearSlideMotor.getCurrentPosition();
+                double ticks = operationMode.linearSlideMotor.getCurrentPosition();
 
                 double power = Math.min(
                         (slope * ticks + y_int), 1);
