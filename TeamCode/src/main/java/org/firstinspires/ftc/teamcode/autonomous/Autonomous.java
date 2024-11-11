@@ -1,23 +1,25 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.Robot;
+
 public abstract class Autonomous extends Robot {
-   static final double TICKS_TO_INCHES = ((13303-9360)/92.9);
+    static final double TICKS_TO_INCHES = ((13303-9360)/92.9);
 
-   void stopWheels() {
-       backLeftWheel.setPower(0);
-       backRightWheel.setPower(0);
-       frontLeftWheel.setPower(0);
-       frontRightWheel.setPower(0);
-   }
+    void stopWheels() {
+        backLeftWheel.setPower(0);
+        backRightWheel.setPower(0);
+        frontLeftWheel.setPower(0);
+        frontRightWheel.setPower(0);
+    }
 
-   void resetEncoder() {
-       backRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       backRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-   }
+    void resetEncoder() {
+        backRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
 
-    void goForward(double inches, double power) {
+    public void goForward(double inches, double power) {
         resetEncoder();
 
         backLeftWheel.setPower(power);
@@ -33,11 +35,12 @@ public abstract class Autonomous extends Robot {
 
         stopWheels();
     }
+
     double inchesToTics(double inches){
         return inches*TICKS_TO_INCHES;
     }
 
-    void goBackward(double inches, double power) {
+    public void goBackward(double inches, double power) {
         resetEncoder();
 
         backLeftWheel.setPower(-power);
@@ -51,7 +54,7 @@ public abstract class Autonomous extends Robot {
         stopWheels();
     }
 
-    void slideLeft(double inches, double power) {
+    public void slideLeft(double inches, double power) {
         resetEncoder();
 
         backLeftWheel.setPower(power);
@@ -65,7 +68,7 @@ public abstract class Autonomous extends Robot {
         stopWheels();
     }
 
-    void slideRight(double inches, double power) {
+    public void slideRight(double inches, double power) {
         resetEncoder();
 
         backLeftWheel.setPower(-power);
@@ -80,7 +83,7 @@ public abstract class Autonomous extends Robot {
         stopWheels();
     }
 
-    void turnLeft(double degrees, double power) {
+    public void turnLeft(double degrees, double power) {
         gyro.reset();
 
         backLeftWheel.setPower(-power);
@@ -98,7 +101,7 @@ public abstract class Autonomous extends Robot {
         stopWheels();
     }
 
-    void turnRight(double degrees, double power) {
+    public void turnRight(double degrees, double power) {
         gyro.reset();
 
         backLeftWheel.setPower(power);
@@ -113,7 +116,7 @@ public abstract class Autonomous extends Robot {
         stopWheels();
     }
 
-    void scoreSpecimen() {
+    public void scoreSpecimen() {
         raiseSpecimen();
         dumpSpecimen();
         linearSlide.lower();

@@ -1,27 +1,30 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.teleOp;
+
+import org.firstinspires.ftc.teamcode.Robot;
 
 import java.util.ArrayList;
 
+public class RelativeWheelControls {
+    Robot operationMode;
 
-public class WheelControls {
-    OperationMode operationMode;
-
-    public WheelControls(OperationMode operationMode) {
+    public RelativeWheelControls(Robot operationMode) {
         this.operationMode = operationMode;
     }
 
     ArrayList<Double[][]> controls = new ArrayList<>();
 
-    // Must allow negative numbers (must be odd)
     final static double SPEED_FACTOR = 0.7;
 
     double powerEquation(double power) {
         return Math.pow(power, 3);
     }
 
+    private double getRadians() {
+        return operationMode.gyro.getAngle() * Math.PI/180;
+    }
+
     void control() {
-        horizontalSlide();
-        forwardAndBackward();
+        relativeSlide();
         pivot();
         submerseableLock();
 
@@ -53,26 +56,18 @@ public class WheelControls {
         });
     }
 
-    void forwardAndBackward() {
-        double y = -operationMode.gamepad1.left_stick_y;
+    void relativeSlide() {
+        double xStick = -operationMode.gamepad1.left_stick_x;
+        double yStick = -operationMode.gamepad1.left_stick_y;
+
+        double radians = getRadians();
+
+        double x = xStick * Math.cos(radians) - yStick * Math.sin(radians);
+        double y = xStick * Math.sin(radians) + yStick * Math.cos(radians);
 
         controls.add(new Double[][] {
-                {y, y},
-                {y, y}
-        });
-    }
-
-    void horizontalSlide() {
-        double leftTrigger = operationMode.gamepad1.left_trigger;
-        double rightTrigger = operationMode.gamepad1.right_trigger;
-
-        double slide = leftTrigger > rightTrigger ? leftTrigger : -rightTrigger;
-
-        //double slide = -operationMode.gamepad1.left_stick_x;
-
-        controls.add(new Double[][] {
-                {-slide, +slide},
-                {+slide, -slide}
+                {y-x, y+x},
+                {y+x, y-x}
         });
     }
 
@@ -96,13 +91,13 @@ public class WheelControls {
                 {CREEP_SPEED, CREEP_SPEED}
         });
 
-//        double power = -operationMode.gamepad1.left_stick_y;
+//        double power = -gamepad1.left_stick_y;
 //
 //        if (power != 0) {
-//            operationMode.intake.moveExtender(power);
+//            intake.moveExtender(power);
 //        }
 //        else {
-//            operationMode.intake.stopExtender();
+//            intake.stopExtender();
 //        }
     }
 }
