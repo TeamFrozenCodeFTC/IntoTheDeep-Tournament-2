@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-public class  LinearSlide {
+public class LinearSlide {
     Robot operationMode;
 
     public LinearSlide(Robot operationMode) {
