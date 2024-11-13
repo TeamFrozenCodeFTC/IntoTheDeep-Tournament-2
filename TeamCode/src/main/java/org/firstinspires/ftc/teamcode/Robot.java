@@ -7,7 +7,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-// A parent class to all operation modes. Contains the Robot's Hardware but also LinearOpMode.
+// A parent class to all operation modes. 
+// Contains the Robot's Hardware, LinearOpMode, 
+// and common functions used in Autonomous and TeleOp..
 public abstract class Robot extends LinearOpMode {
     public DcMotor frontLeftWheel;
     public DcMotor backLeftWheel;
