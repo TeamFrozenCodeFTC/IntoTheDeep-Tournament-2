@@ -40,6 +40,11 @@ public abstract class Robot extends LinearOpMode {
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    private void runToPositionMode(DcMotor motor) {
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
     public void initHardware() {
         frontLeftWheel = hardwareMap.get(DcMotor.class, "frontLeft");
         autoBrake(frontLeftWheel);
@@ -58,12 +63,11 @@ public abstract class Robot extends LinearOpMode {
         intakeExtender = hardwareMap.get(DcMotor.class, "intakeMotor");
         autoBrake(intakeExtender);
         reverse(intakeExtender);
+        runToPositionMode(intakeExtender);
 
         linearSlideMotor = hardwareMap.get(DcMotor.class, "linearSlide");
         reverse(linearSlideMotor);
-        resetTicks(linearSlideMotor);
-//        linearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        runToPositionMode(linearSlideMotor);
 
         sweeper = hardwareMap.get(CRServo.class, "sweeper");
         sweeper.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -75,6 +79,10 @@ public abstract class Robot extends LinearOpMode {
         gyro.startGyro();
 
         dumperServo = hardwareMap.get(Servo.class, "dumperServo");
+    }
+
+    public void initRobot() {
+        initHardware();
 
         linearSlide = new LinearSlide(this);
         intake = new Intake(this);

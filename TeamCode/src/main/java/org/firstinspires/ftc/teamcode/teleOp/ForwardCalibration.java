@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 public class ForwardCalibration extends Robot {
     @Override
     public void runOpMode() {
-        initHardware();
+        initRobot();
         waitForStart();
         while(opModeIsActive()) {
             if (gamepad1.a) {

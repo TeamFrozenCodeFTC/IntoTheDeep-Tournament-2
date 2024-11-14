@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 public class RelativeControls extends Robot {
     @Override
     public void runOpMode() {
-        initHardware();
+        initRobot();
 
         SpecimenControls specimenControls = new SpecimenControls(this);
         RelativeWheelControls relativeWheelControls = new RelativeWheelControls(this);

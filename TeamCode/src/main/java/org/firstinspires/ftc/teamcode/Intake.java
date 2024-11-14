@@ -33,37 +33,53 @@ public class Intake {
         operationMode.intakeExtender.setPower(0);
     }
 
+//    public void moveExtenderInches(double inches) {
+//        completedExtension = false;
+//
+//        new Thread(() -> {
+//            double targetTicks = Math.max(Math.min(inches * TICKS_PER_INCH, MAX_TICKS), MIN_TICKS);
+//
+//            int powerDirection = (
+//                    operationMode.intakeExtender.getCurrentPosition() < targetTicks ? 1 : -1);
+//
+//            while (operationMode.intakeExtender.getCurrentPosition() > targetTicks) {
+//                operationMode.intakeExtender.setPower(powerDirection);
+//            }
+//            operationMode.intakeExtender.setPower(0);
+//            completedExtension = true;
+//        }).start();
+//    }
+
     public void moveExtenderInches(double inches) {
-        completedExtension = false;
-
-        new Thread(() -> {
-            double targetTicks = Math.max(Math.min(inches * TICKS_PER_INCH, MAX_TICKS), MIN_TICKS);
-
-            int powerDirection = (
-                    operationMode.intakeExtender.getCurrentPosition() < targetTicks ? 1 : -1);
-
-            while (operationMode.intakeExtender.getCurrentPosition() > targetTicks) {
-                operationMode.intakeExtender.setPower(powerDirection);
-            }
-            operationMode.intakeExtender.setPower(0);
-            completedExtension = true;
-        }).start();
+        operationMode.intakeExtender.setTargetPosition((int) inches * TICKS_PER_INCH);
+        operationMode.intakeExtender.setPower(1);
     }
+
+//    public void moveExtenderBack() {
+//        completedExtension = false;
+//
+//        new Thread(() -> {
+//            while (operationMode.intakeExtender.getCurrentPosition() > MIN_TICKS) {
+//                operationMode.intakeExtender.setPower(-1);
+//            }
+//            operationMode.intakeExtender.setPower(0);
+//            completedExtension = true;
+//        }).start();
+//    }
 
     public void moveExtenderBack() {
-        completedExtension = false;
-
-        new Thread(() -> {
-            while (operationMode.intakeExtender.getCurrentPosition() > MIN_TICKS) {
-                operationMode.intakeExtender.setPower(-1);
-            }
-            operationMode.intakeExtender.setPower(0);
-            completedExtension = true;
-        }).start();
+        operationMode.intakeExtender.setTargetPosition(100);
+        operationMode.intakeExtender.setPower(1);
     }
 
+//    public void waitForExtension() {
+//        while (!completedExtension) {
+//
+//        }
+//    }
+
     public void waitForExtension() {
-        while (!completedExtension) {
+        while (operationMode.intakeExtender.isBusy()) {
 
         }
     }
