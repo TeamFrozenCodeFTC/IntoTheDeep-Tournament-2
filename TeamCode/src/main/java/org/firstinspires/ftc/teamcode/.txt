@@ -10,6 +10,5 @@ bucket thicker edges
 smaller funnel
 shorter intake sweeper edge
 
-
 TODO Test Set to Position
 

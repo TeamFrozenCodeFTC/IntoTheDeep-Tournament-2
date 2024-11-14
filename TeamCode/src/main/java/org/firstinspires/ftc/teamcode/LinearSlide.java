@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 public class LinearSlide {
     Robot operationMode;
 
@@ -13,64 +15,56 @@ public class LinearSlide {
     static final int TICKS_TO_EQUATION = MAX_TICKS - 175;
 
     static final int MIN = TICKS_MARGIN;
-    static final int MAX = MAX_TICKS - TICKS_MARGIN;
-    static final int FIRST_LEVEL = MAX_TICKS / 2;
+
+    static final int TOP_BASKET = MAX_TICKS - TICKS_MARGIN;
+    static final int BOTTOM_BASKET = 3000;
+    static final int BOTTOM_BAR = 0;
+    static final int TOP_BAR = 3500;
 
     public void dump() {
-        operationMode.dumperServo.setPosition(0.4);
+        operationMode.dumperServo.setPosition(0.7);
+        //operationMode.dumperServo.setPosition(0.2); slanted
     }
 
     public void undump() {
-        operationMode.dumperServo.setPosition(0.25);
+        operationMode.dumperServo.setPosition(0.4);
     }
 
-    boolean completedExtension = false;
-    boolean isRaised = false;
-
     public void waitForExtension() {
-        while (!completedExtension) {
+        while (operationMode.linearSlideMotor.isBusy()) {
 
         }
     }
 
-    public void raise(int level) {
-        int targetTicks = level >= 2 ? MAX : FIRST_LEVEL;
-        completedExtension = false;
-        isRaised = true;
+    private void raise(int ticks) {
+        operationMode.linearSlideMotor.setTargetPosition(ticks);
+        operationMode.linearSlideMotor.setPower(0.5);
+    }
 
-        new Thread(() -> {
-            while (isRaised) {
-                int x1 = TICKS_TO_EQUATION, y1 = 1;
-                int x2 = targetTicks,       y2 = 0;
+    public void topBasketRaise() {
+        raise(TOP_BASKET);
+    }
 
-                double slope = (double) (y1 - y2) / (x1 - x2);
-                double y_int = 1 - slope * TICKS_TO_EQUATION;
+    public void bottomBasketRaise() {
+        raise(BOTTOM_BASKET);
+    }
 
-                double ticks = operationMode.linearSlideMotor.getCurrentPosition();
+    public void topBarRaise() {
+        raise(TOP_BAR);
+    }
 
-                double power = Math.min(
-                        (slope * ticks + y_int), 1);
-
-                operationMode.linearSlideMotor.setPower(power);
-
-                if (ticks >= targetTicks) {
-                    completedExtension = true;
-                }
-            }
-            operationMode.linearSlideMotor.setPower(0);
-        }).start();
+    public void bottomBarRaise() {
+        raise(BOTTOM_BAR);
     }
 
     public void lower() {
-        completedExtension = false;
-        isRaised = false;
+        operationMode.linearSlideMotor.setTargetPosition(MIN);
+
+        operationMode.linearSlideMotor.setPower(-0.4); // Set power
 
         new Thread(() -> {
-            while (!isRaised && operationMode.linearSlideMotor.getCurrentPosition() > MIN) {
-                operationMode.linearSlideMotor.setPower(-0.25);
-            }
+            waitForExtension();
             operationMode.linearSlideMotor.setPower(0);
-            completedExtension = true;
         }).start();
     }
 }

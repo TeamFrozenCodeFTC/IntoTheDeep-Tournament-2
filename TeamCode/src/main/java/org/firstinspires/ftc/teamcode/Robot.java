@@ -7,9 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-// A parent class to all operation modes. 
-// Contains the Robot's Hardware, LinearOpMode, 
-// and common functions used in Autonomous and TeleOp..
+// A parent class to all operation modes. Contains the Robot's Hardware but also LinearOpMode.
 public abstract class Robot extends LinearOpMode {
     public DcMotor frontLeftWheel;
     public DcMotor backLeftWheel;
@@ -64,6 +62,8 @@ public abstract class Robot extends LinearOpMode {
         linearSlideMotor = hardwareMap.get(DcMotor.class, "linearSlide");
         reverse(linearSlideMotor);
         resetTicks(linearSlideMotor);
+//        linearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         sweeper = hardwareMap.get(CRServo.class, "sweeper");
         sweeper.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -85,7 +85,7 @@ public abstract class Robot extends LinearOpMode {
     }
 
     public void raiseSpecimen() {
-        linearSlide.raise(2);
+        linearSlide.topBarRaise();
         sleep(500);
         linearSlide.waitForExtension();
     }
