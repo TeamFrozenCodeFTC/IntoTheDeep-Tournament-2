@@ -62,8 +62,8 @@ public abstract class Robot extends LinearOpMode {
         linearSlideMotor = hardwareMap.get(DcMotor.class, "linearSlide");
         reverse(linearSlideMotor);
         resetTicks(linearSlideMotor);
-        linearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        linearSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         sweeper = hardwareMap.get(CRServo.class, "sweeper");
         sweeper.setDirection(DcMotorSimple.Direction.REVERSE);
