@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 public class AutoBlueBasket extends Autonomous {
     @Override
     public void runOpMode() {
-        initHardware();
+        initRobot();
         waitForStart();
 
         goForward(24,0.5);

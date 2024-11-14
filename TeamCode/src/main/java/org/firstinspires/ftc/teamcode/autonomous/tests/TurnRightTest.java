@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.autonomous.Autonomous;
 public class TurnRightTest extends Autonomous {
     @Override
     public void runOpMode() {
-        initHardware();
+        initRobot();
 
         waitForStart();
 

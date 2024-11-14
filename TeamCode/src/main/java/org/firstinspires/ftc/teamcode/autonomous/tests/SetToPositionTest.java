@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.autonomous.Autonomous;
 public class SetToPositionTest extends Autonomous {
     @Override
     public void runOpMode() {
-        initHardware();
+        initRobot();
         waitForStart();
 
         DcMotor motor = linearSlideMotor;

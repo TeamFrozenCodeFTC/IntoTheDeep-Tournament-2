@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 public class AutoBlueObservation extends Autonomous {
     @Override
     public void runOpMode() {
-        initHardware();
+        initRobot();
         waitForStart();
 
         double power = 0.5;
