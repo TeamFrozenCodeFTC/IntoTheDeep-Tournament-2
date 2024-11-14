@@ -36,7 +36,7 @@ public class SpecimenControls {
 
     void linearSlide() {
         if (operationMode.gamepad2.right_bumper) {
-            operationMode.linearSlide.raise(2);
+            operationMode.linearSlide.topBasketRaise();
         }
         else if (operationMode.gamepad2.left_bumper) {
             operationMode.linearSlide.lower();
