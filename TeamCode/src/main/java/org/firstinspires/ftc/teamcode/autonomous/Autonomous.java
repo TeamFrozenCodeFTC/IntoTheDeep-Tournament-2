@@ -119,6 +119,6 @@ public abstract class Autonomous extends Robot {
     public void scoreSpecimen() {
         raiseSpecimen();
         dumpSpecimen();
-        linearSlide.lower();
+        viperSlide.lower();
     }
 }

@@ -14,11 +14,11 @@ public class ViperTest extends Robot {
 
         while (opModeIsActive()) {
             if (gamepad1.square) {
-                linearSlideMotor.setPower(0.5);
+                viperSlideMotor.setPower(0.5);
             } else if (gamepad1.triangle) {
-                linearSlideMotor.setPower(-0.5);
+                viperSlideMotor.setPower(-0.5);
             } else {
-                linearSlideMotor.setPower(0);
+                viperSlideMotor.setPower(0);
             }
         }
     }
