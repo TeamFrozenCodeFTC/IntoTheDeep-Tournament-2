@@ -62,8 +62,10 @@ public class RelativeWheelControls {
 
         double radians = getRadians();
 
-        double x = xStick * Math.cos(radians) - yStick * Math.sin(radians);
-        double y = xStick * Math.sin(radians) + yStick * Math.cos(radians);
+        double cos = Math.cos(radians);
+        double sin = Math.sin(radians);
+        double x = xStick * cos - yStick * sin;
+        double y = xStick * sin + yStick * cos;
 
         controls.add(new Double[][] {
                 {y-x, y+x},

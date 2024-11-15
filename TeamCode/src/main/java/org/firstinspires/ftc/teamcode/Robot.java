@@ -14,7 +14,7 @@ public abstract class Robot extends LinearOpMode {
     public DcMotor frontRightWheel;
     public DcMotor backRightWheel;
 
-    public DcMotor linearSlideMotor;
+    public DcMotor viperSlideMotor;
 
     public DcMotor intakeExtender;
     public CRServo sweeper;
@@ -24,7 +24,7 @@ public abstract class Robot extends LinearOpMode {
 
     public Servo dumperServo;
 
-    public LinearSlide linearSlide;
+    public ViperSlide viperSlide;
     public Intake intake;
 
     private void autoBrake(DcMotor motor) {
@@ -65,9 +65,9 @@ public abstract class Robot extends LinearOpMode {
         reverse(intakeExtender);
         runToPositionMode(intakeExtender);
 
-        linearSlideMotor = hardwareMap.get(DcMotor.class, "linearSlide");
-        reverse(linearSlideMotor);
-        runToPositionMode(linearSlideMotor);
+        viperSlideMotor = hardwareMap.get(DcMotor.class, "linearSlide");
+        reverse(viperSlideMotor);
+        runToPositionMode(viperSlideMotor);
 
         sweeper = hardwareMap.get(CRServo.class, "sweeper");
         sweeper.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -84,24 +84,24 @@ public abstract class Robot extends LinearOpMode {
     public void initRobot() {
         initHardware();
 
-        linearSlide = new LinearSlide(this);
+        viperSlide = new ViperSlide(this);
         intake = new Intake(this);
 
         intake.armIn();
         intake.moveExtenderBack();
-        linearSlide.undump();
+        viperSlide.undump();
     }
 
     public void raiseSpecimen() {
-        linearSlide.topBarRaise();
+        viperSlide.topBarRaise();
         sleep(500);
-        linearSlide.waitForExtension();
+        viperSlide.waitForExtension();
     }
 
     public void dumpSpecimen() {
-        linearSlide.dump();
+        viperSlide.dump();
         sleep(2000);
-        linearSlide.undump();
+        viperSlide.undump();
     }
 
     public void moveSpecimenToBucket() {

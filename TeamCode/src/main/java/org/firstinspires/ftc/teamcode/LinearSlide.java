@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 public class LinearSlide {
     Robot operationMode;
 
@@ -31,14 +29,14 @@ public class LinearSlide {
     }
 
     public void waitForExtension() {
-        while (operationMode.linearSlideMotor.isBusy()) {
+        while (operationMode.viperSlideMotor.isBusy()) {
 
         }
     }
 
     private void raise(int ticks) {
-        operationMode.linearSlideMotor.setTargetPosition(ticks);
-        operationMode.linearSlideMotor.setPower(0.5);
+        operationMode.viperSlideMotor.setTargetPosition(ticks);
+        operationMode.viperSlideMotor.setPower(0.5);
     }
 
     public void topBasketRaise() {
@@ -58,13 +56,13 @@ public class LinearSlide {
     }
 
     public void lower() {
-        operationMode.linearSlideMotor.setTargetPosition(MIN);
+        operationMode.viperSlideMotor.setTargetPosition(MIN);
 
-        operationMode.linearSlideMotor.setPower(-0.4); // Set power
+        operationMode.viperSlideMotor.setPower(-0.4); // Set power
 
         new Thread(() -> {
             waitForExtension();
-            operationMode.linearSlideMotor.setPower(0);
+            operationMode.viperSlideMotor.setPower(0);
         }).start();
     }
 }

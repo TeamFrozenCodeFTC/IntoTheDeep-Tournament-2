@@ -36,19 +36,19 @@ public class SpecimenControls {
 
     void linearSlide() {
         if (operationMode.gamepad2.right_bumper) {
-            operationMode.linearSlide.topBasketRaise();
+            operationMode.viperSlide.topBasketRaise();
         }
         else if (operationMode.gamepad2.left_bumper) {
-            operationMode.linearSlide.lower();
+            operationMode.viperSlide.lower();
         }
     }
 
     void dumper() {
         if (operationMode.gamepad2.dpad_up) {
-            operationMode.linearSlide.dump();
+            operationMode.viperSlide.dump();
         }
         else {
-            operationMode.linearSlide.undump();
+            operationMode.viperSlide.undump();
         }
     }
 
