@@ -34,11 +34,22 @@ public class Gyro2 {
         angle = storedAngle;
     }
 
-    private double read() {
+    double headingOffset = 0;
+
+    public void resetDegrees() {
+        headingOffset = gyro.getAngularOrientation().firstAngle;
+    }
+
+    public double getDegrees() {
+        return gyro.getAngularOrientation().firstAngle - headingOffset;
+    }
+
+    public double read() {
         Orientation angles = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.firstAngle;
     }
 
+    // are we going to need accumulative degrees?
     public double getAngle() {
         double current = read();
 

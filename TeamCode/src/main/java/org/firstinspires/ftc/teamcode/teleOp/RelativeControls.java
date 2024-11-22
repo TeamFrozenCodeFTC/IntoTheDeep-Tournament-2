@@ -11,7 +11,7 @@ public class RelativeControls extends Robot {
     public void runOpMode() {
         initRobot();
 
-        SpecimenControls specimenControls = new SpecimenControls(this);
+        SampleControls specimenControls = new SampleControls(this);
         RelativeWheelControls relativeWheelControls = new RelativeWheelControls(this);
 
         waitForStart();
@@ -28,6 +28,5 @@ public class RelativeControls extends Robot {
             telemetry.addData("ticks", viperSlideMotor.getCurrentPosition());
             telemetry.update();
         }
-
     }
 }

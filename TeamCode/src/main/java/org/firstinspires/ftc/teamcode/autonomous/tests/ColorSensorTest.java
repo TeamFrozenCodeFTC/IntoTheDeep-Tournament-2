@@ -3,14 +3,16 @@ package org.firstinspires.ftc.teamcode.autonomous.tests;
 import org.firstinspires.ftc.teamcode.autonomous.Autonomous;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
-public class TurnLeftTest extends Autonomous {
+public class ColorSensorTest extends Autonomous {
     @Override
     public void runOpMode() {
         initRobot();
-        
-        waitForStart();
-        
-        turnLeft(360,0.3);
 
+        waitForStart();
+
+        while (opModeIsActive()) {
+            telemetry.addData("colorLeft", (double)colorLeft.blue());
+            telemetry.addData("colorRight", (double)colorRight.blue());
+        }
     }
 }

@@ -5,28 +5,38 @@ import org.firstinspires.ftc.teamcode.Robot;
 import java.util.ArrayList;
 
 public class RelativeWheelControls {
-    Robot operationMode;
+    Robot op;
 
-    public RelativeWheelControls(Robot operationMode) {
-        this.operationMode = operationMode;
+    public RelativeWheelControls(Robot op) {
+        this.op = op;
     }
 
     ArrayList<Double[][]> controls = new ArrayList<>();
 
-    final static double SPEED_FACTOR = 0.7;
+    static double SPEED_FACTOR = 0.7;
 
     double powerEquation(double power) {
         return Math.pow(power, 3);
     }
 
     private double getRadians() {
-        return operationMode.gyro.getAngle() * Math.PI/180;
+        return op.gyro.getAngle() * Math.PI/180;
     }
 
     void control() {
+        if (op.gamepad1.triangle) {
+            op.gyro.reset();
+        }
+
         relativeSlide();
         pivot();
-        submerseableLock();
+
+        if (op.gamepad1.right_stick_button) {
+            SPEED_FACTOR = 0.2;
+        }
+        else {
+            SPEED_FACTOR = 0.7;
+        }
 
         double frontLeftPower  = 0;
         double backLeftPower   = 0;
@@ -39,16 +49,16 @@ public class RelativeWheelControls {
             frontRightPower += powerEquation(control[0][1]) * SPEED_FACTOR;
         }
 
-        operationMode.frontLeftWheel.setPower(frontLeftPower);
-        operationMode.backLeftWheel.setPower(backLeftPower);
-        operationMode.frontRightWheel.setPower(frontRightPower);
-        operationMode.backRightWheel.setPower(backRightPower);
+        op.frontLeftWheel.setPower(frontLeftPower);
+        op.backLeftWheel.setPower(backLeftPower);
+        op.frontRightWheel.setPower(frontRightPower);
+        op.backRightWheel.setPower(backRightPower);
 
         controls.clear();
     }
 
     void pivot() {
-        double pivot = operationMode.gamepad1.right_stick_x;
+        double pivot = op.gamepad1.right_stick_x;
 
         controls.add(new Double[][] {
                 {pivot, -pivot},
@@ -57,8 +67,8 @@ public class RelativeWheelControls {
     }
 
     void relativeSlide() {
-        double xStick = -operationMode.gamepad1.left_stick_x;
-        double yStick = -operationMode.gamepad1.left_stick_y;
+        double xStick = -op.gamepad1.left_stick_x;
+        double yStick = -op.gamepad1.left_stick_y;
 
         double radians = getRadians();
 
@@ -71,35 +81,5 @@ public class RelativeWheelControls {
                 {y-x, y+x},
                 {y+x, y-x}
         });
-    }
-
-    final static double CREEP_SPEED = 0.5;
-    boolean isLockedOnSubmersible = false;
-
-    void submerseableLock() {
-        if (operationMode.gamepad1.dpad_up) {
-            isLockedOnSubmersible = !isLockedOnSubmersible;
-        }
-
-        if (!isLockedOnSubmersible) {
-            return;
-        }
-
-        operationMode.telemetry.addData("creeping", CREEP_SPEED);
-        operationMode.telemetry.update();
-
-        controls.add(new Double[][]{
-                {CREEP_SPEED, CREEP_SPEED},
-                {CREEP_SPEED, CREEP_SPEED}
-        });
-
-//        double power = -gamepad1.left_stick_y;
-//
-//        if (power != 0) {
-//            intake.moveExtender(power);
-//        }
-//        else {
-//            intake.stopExtender();
-//        }
     }
 }
