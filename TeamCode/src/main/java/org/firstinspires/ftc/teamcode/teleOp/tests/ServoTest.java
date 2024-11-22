@@ -11,8 +11,8 @@ public class ServoTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Servo servo;
-        // servo = hardwareMap.get(Servo.class, "dumperServo");
-        servo = hardwareMap.get(Servo.class, "sweeperRotator");
+
+        servo = hardwareMap.get(Servo.class, "clawRight");
 
         LinearEquation servoMap = new LinearEquation(1, 1, -1, 0);
 
@@ -21,7 +21,7 @@ public class ServoTest extends LinearOpMode {
         while(opModeIsActive()) {
             double pos = servoMap.solve(gamepad1.left_stick_y);
             servo.setPosition(pos);
-            telemetry.addData("position", pos);
+            telemetry.addData("Servo Position", pos);
             telemetry.update();
         }
     }

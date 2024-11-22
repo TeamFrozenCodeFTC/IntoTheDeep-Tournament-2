@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -23,9 +24,14 @@ public abstract class Robot extends LinearOpMode {
     public Gyro2 gyro;
 
     public Servo dumperServo;
+    public Servo clawLeft;
+    public Servo clawRight;
 
     public ViperSlide viperSlide;
     public Intake intake;
+
+    public ColorSensor colorLeft;
+    public ColorSensor colorRight;
 
     private void autoBrake(DcMotor motor) {
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -40,12 +46,13 @@ public abstract class Robot extends LinearOpMode {
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    private void runToPositionMode(DcMotor motor) {
+    public void runToPositionMode(DcMotor motor) {
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setTargetPosition(0);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void initHardware() {
+    public void initWheels() {
         frontLeftWheel = hardwareMap.get(DcMotor.class, "frontLeft");
         autoBrake(frontLeftWheel);
         reverse(frontLeftWheel);
@@ -59,11 +66,15 @@ public abstract class Robot extends LinearOpMode {
 
         backRightWheel = hardwareMap.get(DcMotor.class, "backRight");
         autoBrake(backRightWheel);
+    }
+
+    public void initHardware() {
+        initWheels();
 
         intakeExtender = hardwareMap.get(DcMotor.class, "intakeMotor");
         autoBrake(intakeExtender);
         reverse(intakeExtender);
-        runToPositionMode(intakeExtender);
+        //runToPositionMode(intakeExtender); // !?
 
         viperSlideMotor = hardwareMap.get(DcMotor.class, "linearSlide");
         reverse(viperSlideMotor);
@@ -74,11 +85,17 @@ public abstract class Robot extends LinearOpMode {
 
         sweeperRotator = hardwareMap.get(Servo.class, "sweeperRotator");
 
+        dumperServo = hardwareMap.get(Servo.class, "dumperServo");
+
+        colorLeft = hardwareMap.get(ColorSensor.class, "leftColor");
+        colorRight = hardwareMap.get(ColorSensor.class, "rightColor");
+
+        clawLeft = hardwareMap.get(Servo.class, "clawLeft");
+        clawRight = hardwareMap.get(Servo.class, "clawRight");
+
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         gyro = new Gyro2(imu, this);
         gyro.startGyro();
-
-        dumperServo = hardwareMap.get(Servo.class, "dumperServo");
     }
 
     public void initRobot() {
@@ -88,30 +105,7 @@ public abstract class Robot extends LinearOpMode {
         intake = new Intake(this);
 
         intake.armIn();
-        intake.moveExtenderBack();
-        viperSlide.undump();
-    }
-
-    public void raiseSpecimen() {
-        viperSlide.topBarRaise();
-        sleep(500);
-        viperSlide.waitForExtension();
-    }
-
-    public void dumpSpecimen() {
-        viperSlide.dump();
-        sleep(2000);
-        viperSlide.undump();
-    }
-
-    public void moveSpecimenToBucket() {
-        intake.armIn();
-        intake.moveExtenderBack();
-        intake.waitForExtension();
-        intake.waitForArm();
-
-        intake.spinSweeperOut();
-        sleep(2000);
-        intake.stopSweeper();
+        //intake.moveExtenderBack();
+        //viperSlide.undump();
     }
 }

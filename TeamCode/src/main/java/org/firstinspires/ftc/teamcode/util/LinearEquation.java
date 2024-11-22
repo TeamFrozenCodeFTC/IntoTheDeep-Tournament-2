@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.util;
 
 public class LinearEquation {
-
     double m;
     double b;
 
@@ -13,6 +12,4 @@ public class LinearEquation {
     public double solve(double x) {
         return (m * x) + b;
     }
-
-
 }

@@ -7,6 +7,12 @@ import org.firstinspires.ftc.teamcode.Robot;
 public abstract class Autonomous extends Robot {
     static final double TICKS_TO_INCHES = ((13303-9360)/92.9);
 
+    @Override
+    public void initRobot() {
+        super.initRobot();
+        super.runToPositionMode(intakeExtender);
+    }
+
     void stopWheels() {
         backLeftWheel.setPower(0);
         backRightWheel.setPower(0);
@@ -116,8 +122,20 @@ public abstract class Autonomous extends Robot {
         stopWheels();
     }
 
+    public void raiseSample() {
+        viperSlide.topBarRaise();
+        sleep(500);
+        viperSlide.waitForExtension();
+    }
+
+    public void dumpSpecimen() {
+        viperSlide.dump();
+        sleep(2000);
+        viperSlide.bucketFlat();
+    }
+
     public void scoreSpecimen() {
-        raiseSpecimen();
+        raiseSample();
         dumpSpecimen();
         viperSlide.lower();
     }

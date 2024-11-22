@@ -1,61 +1,72 @@
 package org.firstinspires.ftc.teamcode;
 
 public class ViperSlide {
-    Robot operationMode;
+    Robot op;
 
-    public ViperSlide(Robot operationMode) {
-        this.operationMode = operationMode;
+    public ViperSlide(Robot op) {
+        this.op = op;
     }
 
-    static final int TOP_BASKET = 1000;
-    static final int BOTTOM_BASKET = 1000;
-    static final int BOTTOM_BAR = 1000;
-    static final int TOP_BAR = 1000;
+    public final static int MAX_TICKS = 4300;
 
     private void raise(int ticks) {
-        operationMode.viperSlideMotor.setTargetPosition(ticks);
-        operationMode.viperSlideMotor.setPower(0.5);
+        op.viperSlideMotor.setTargetPosition(ticks);
+        op.viperSlideMotor.setPower(1);
     }
 
     public void topBasketRaise() {
-        raise(TOP_BASKET);
+        raise(4300);
     }
 
     public void bottomBasketRaise() {
-        raise(BOTTOM_BASKET);
+        raise(3000);
     }
 
     public void topBarRaise() {
-        raise(TOP_BAR);
+        raise(3000);
     }
 
     public void bottomBarRaise() {
-        raise(BOTTOM_BAR);
+        raise(1000);
     }
 
     public void lower() {
-        operationMode.viperSlideMotor.setTargetPosition(0);
+        op.viperSlideMotor.setTargetPosition(0);
 
-        operationMode.viperSlideMotor.setPower(-0.4);
+        op.viperSlideMotor.setPower(-1);
 
         new Thread(() -> {
             waitForExtension();
-            operationMode.viperSlideMotor.setPower(0);
+            op.viperSlideMotor.setPower(0);
         }).start();
     }
 
     public void waitForExtension() {
-        while (operationMode.viperSlideMotor.isBusy()) {
+        while (op.viperSlideMotor.isBusy()
+                || op.viperSlideMotor.getCurrentPosition() < MAX_TICKS-10) {
 
         }
     }
 
     public void dump() {
-        operationMode.dumperServo.setPosition(0.7);
-        //operationMode.dumperServo.setPosition(0.2); slanted
+        op.dumperServo.setPosition(0.37);
     }
 
-    public void undump() {
-        operationMode.dumperServo.setPosition(0.4);
+    public void bucketFlat() {
+        op.dumperServo.setPosition(0.17);
+    }
+
+    public void bucketDown() {
+        op.dumperServo.setPosition(-0.17);
+    }
+
+    public void clawGrab() {
+        op.clawLeft.setPosition(.7);
+        op.clawRight.setPosition(0);
+    }
+
+    public void clawOut() {
+        op.clawLeft.setPosition(0);
+        op.clawRight.setPosition(.5);
     }
 }

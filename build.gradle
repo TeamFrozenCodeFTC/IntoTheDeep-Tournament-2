@@ -27,7 +27,3 @@ allprojects {
 repositories {
     mavenCentral()
 }
-
-task gitPull(type: Exec) {
-    commandLine 'git', 'pull', 'origin', 'master'
-}

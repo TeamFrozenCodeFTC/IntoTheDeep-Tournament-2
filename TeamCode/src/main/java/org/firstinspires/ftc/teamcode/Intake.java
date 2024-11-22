@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
 public class Intake {
-    Robot operationMode;
+    Robot op;
 
-    public Intake(Robot operationMode) {
-        this.operationMode = operationMode;
+    public Intake(Robot op) {
+        this.op = op;
     }
 
-    static final double ARM_MIN_POSITION = .25;
+    static final double ARM_MIN_POSITION = .29;;
     static final double ARM_MAX_POSITION = .92;
 
     public static final int MAX_TICKS = 3500;
@@ -17,97 +17,50 @@ public class Intake {
 
     public static final int MIN_TICKS = TICKS_MARGIN;
 
-    boolean completedExtension = true;
-
-    public void moveExtender(double power) {
-        new Thread(() -> {
-            while (operationMode.intakeExtender.getCurrentPosition() < MAX_TICKS
-                    && operationMode.intakeExtender.getCurrentPosition() > MIN_TICKS) {
-                operationMode.intakeExtender.setPower(power);
-            }
-            operationMode.intakeExtender.setPower(0);
-        }).start();
-    }
-
     public void stopExtender() {
-        operationMode.intakeExtender.setPower(0);
+        op.intakeExtender.setPower(0);
     }
-
-//    public void moveExtenderInches(double inches) {
-//        completedExtension = false;
-//
-//        new Thread(() -> {
-//            double targetTicks = Math.max(Math.min(inches * TICKS_PER_INCH, MAX_TICKS), MIN_TICKS);
-//
-//            int powerDirection = (
-//                    operationMode.intakeExtender.getCurrentPosition() < targetTicks ? 1 : -1);
-//
-//            while (operationMode.intakeExtender.getCurrentPosition() > targetTicks) {
-//                operationMode.intakeExtender.setPower(powerDirection);
-//            }
-//            operationMode.intakeExtender.setPower(0);
-//            completedExtension = true;
-//        }).start();
-//    }
 
     public void moveExtenderInches(double inches) {
-        operationMode.intakeExtender.setTargetPosition((int) inches * TICKS_PER_INCH);
-        operationMode.intakeExtender.setPower(1);
+        op.intakeExtender.setTargetPosition((int) inches * TICKS_PER_INCH);
+        op.intakeExtender.setPower(1);
     }
-
-//    public void moveExtenderBack() {
-//        completedExtension = false;
-//
-//        new Thread(() -> {
-//            while (operationMode.intakeExtender.getCurrentPosition() > MIN_TICKS) {
-//                operationMode.intakeExtender.setPower(-1);
-//            }
-//            operationMode.intakeExtender.setPower(0);
-//            completedExtension = true;
-//        }).start();
-//    }
 
     public void moveExtenderBack() {
-        operationMode.intakeExtender.setTargetPosition(100);
-        operationMode.intakeExtender.setPower(1);
+        op.intakeExtender.setTargetPosition(100);
+        op.intakeExtender.setPower(1);
     }
 
-//    public void waitForExtension() {
-//        while (!completedExtension) {
-//
-//        }
-//    }
-
     public void waitForExtension() {
-        while (operationMode.intakeExtender.isBusy()) {
+        while (op.intakeExtender.isBusy()) {
 
         }
     }
 
     public void armOut() {
-        operationMode.sweeperRotator.setPosition(ARM_MAX_POSITION);
+        op.sweeperRotator.setPosition(ARM_MAX_POSITION);
     }
 
     public void armIn() {
-        operationMode.sweeperRotator.setPosition(ARM_MIN_POSITION);
+        op.sweeperRotator.setPosition(ARM_MIN_POSITION);
     }
 
     public void waitForArm() {
-        while (operationMode.sweeperRotator.getPosition() != ARM_MIN_POSITION
-                || operationMode.sweeperRotator.getPosition() != ARM_MAX_POSITION) {
+        while (op.sweeperRotator.getPosition() != ARM_MIN_POSITION
+                || op.sweeperRotator.getPosition() != ARM_MAX_POSITION) {
 
         }
     }
 
     public void spinSweeperIn() {
-        operationMode.sweeper.setPower(0.5);
+        op.sweeper.setPower(0.5);
     }
 
     public void spinSweeperOut() {
-        operationMode.sweeper.setPower(-1);
+        op.sweeper.setPower(-1);
     }
 
     public void stopSweeper() {
-        operationMode.sweeper.setPower(0);
+        op.sweeper.setPower(0);
     }
 }
