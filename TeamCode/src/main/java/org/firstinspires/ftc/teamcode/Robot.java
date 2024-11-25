@@ -105,7 +105,7 @@ public abstract class Robot extends LinearOpMode {
         intake = new Intake(this);
 
         intake.armIn();
-        //intake.moveExtenderBack();
-        //viperSlide.undump();
+        viperSlide.bucketDown();
+        viperSlide.clawOut();
     }
 }

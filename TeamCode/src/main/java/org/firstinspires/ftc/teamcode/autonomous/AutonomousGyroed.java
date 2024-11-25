@@ -4,12 +4,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-import java.util.ArrayList;
-
 public abstract class AutonomousGyroed extends Robot {
     static final double TICKS_TO_INCHES = ((13303-9360)/92.9); // 42.5
 
-    int lockedAngle = 0;
+    public int lockedAngle = 0;
 
     @Override
     public void initRobot() {
@@ -24,7 +22,7 @@ public abstract class AutonomousGyroed extends Robot {
         double frontRight,
         double backRight
     ) {
-        double angleLock = (gyro.getDegrees() - angle) * Math.PI/180;
+        double angleLock = (gyro.getAngle() - angle) / 360 * 17;
 
         frontLeftWheel.setPower(frontLeft+angleLock);
         backLeftWheel.setPower(backLeft+angleLock);
@@ -41,7 +39,7 @@ public abstract class AutonomousGyroed extends Robot {
 
     void resetEncoder() {
         backRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backRightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void goForward(double inches, double power) {
@@ -57,7 +55,15 @@ public abstract class AutonomousGyroed extends Robot {
     }
 
     public void goBackward(double inches, double power) {
-        goForward(-inches, -power);
+        resetEncoder();
+
+        double targetTics = inchesToTics(inches);
+
+        while (backRightWheel.getCurrentPosition() > -targetTics) {
+            angleLock(lockedAngle,-power,-power,-power,-power);
+        }
+
+        stopWheels();
     }
 
     public void slideRight(double inches, double power) {
@@ -65,7 +71,7 @@ public abstract class AutonomousGyroed extends Robot {
 
         double targetTics = inchesToTics(inches);
 
-        while (backRightWheel.getCurrentPosition() < targetTics) {
+        while (backRightWheel.getCurrentPosition() > -targetTics) {
             angleLock(lockedAngle,-power,power,power,-power);
         }
 
@@ -73,45 +79,80 @@ public abstract class AutonomousGyroed extends Robot {
     }
 
     public void slideLeft(double inches, double power) {
-        slideRight(-inches, -power);
-    }
+        resetEncoder();
 
-    public void turnRight(int degrees) {
-        gyro.reset();
-        gyro.resetDegrees();
+        double targetTics = inchesToTics(inches);
 
-        lockedAngle += degrees;
-
-        while (gyro.getDegrees() != degrees) {
-            angleLock(degrees,0,0,0,0);
+        while (backRightWheel.getCurrentPosition() < targetTics) {
+            angleLock(lockedAngle,power,-power,-power,power);
         }
 
         stopWheels();
     }
 
-    public void turnLeft(int degrees) {
-        turnRight(-degrees);
+    public void turnRight(int degrees, double power) {
+        lockedAngle += degrees;
+
+        while (gyro.getAngle() < lockedAngle) {
+            frontLeftWheel.setPower(-power);
+            backLeftWheel.setPower(-power);
+            frontRightWheel.setPower(power);
+            backRightWheel.setPower(power);
+        }
+
+        stopWheels();
+    }
+
+    public void turnLeft(int degrees, double power) {
+        lockedAngle -= degrees;
+
+        while (gyro.getAngle() > lockedAngle) {
+            frontLeftWheel.setPower(power);
+            backLeftWheel.setPower(power);
+            frontRightWheel.setPower(-power);
+            backRightWheel.setPower(-power);
+        }
+
+        stopWheels();
+    }
+
+    private void move(
+        double inches,
+        double frontLeft,
+        double backLeft,
+        double frontRight,
+        double backRight
+    ) {
+        resetEncoder();
+
+        double targetTics = inchesToTics(inches);
+
+        double currentTime = System.currentTimeMillis();
+        double currentTicks = Math.abs(backRightWheel.getCurrentPosition());
+
+        while (Math.abs(backRightWheel.getCurrentPosition()) < targetTics) {
+            if (System.currentTimeMillis() - currentTime >= 1000) {
+                if (Math.abs(Math.abs(backRightWheel.getCurrentPosition()) - currentTicks) < 20) {
+                    break;
+                }
+                currentTime = System.currentTimeMillis();
+                currentTicks = Math.abs(backRightWheel.getCurrentPosition());
+            }
+
+            angleLock(lockedAngle, frontLeft, backLeft, frontRight, backRight);
+        }
+
+        stopWheels();
+    }
+
+    public void bumpBackward(int inches, double power) {
+        move(inches, -power,-power,-power,-power);
+        // !?
+        gyro.reset();
+        lockedAngle = 0;
     }
 
     double inchesToTics(double inches){
         return inches*TICKS_TO_INCHES;
-    }
-
-    public void raiseSample() {
-        viperSlide.topBarRaise();
-        sleep(500);
-        viperSlide.waitForExtension();
-    }
-
-    public void dumpSpecimen() {
-        viperSlide.dump();
-        sleep(2000);
-        viperSlide.bucketFlat();
-    }
-
-    public void scoreSpecimen() {
-        raiseSample();
-        dumpSpecimen();
-        viperSlide.lower();
     }
 }

@@ -33,24 +33,29 @@ public class SampleControls {
     }
 
     void linearSlide() {
+//        if (op.gamepad2.left_trigger > 0.5) {
+//            op.viperSlideMotor.setTargetPosition(
+//                    Math.min(ViperSlide.MAX_TICKS, op.viperSlideMotor.getCurrentPosition() + 10)
+//            );
+//            op.viperSlideMotor.setPower(1);
+//        }
+//        else if (op.gamepad2.right_trigger > 0.5) {
+//            op.viperSlideMotor.setTargetPosition(
+//                    Math.max(0, op.viperSlideMotor.getCurrentPosition() - 10)
+//            );
+//            op.viperSlideMotor.setPower(1);
+//        }
         if (op.gamepad2.left_trigger > 0) {
-            op.viperSlideMotor.setTargetPosition(
-                    Math.min(ViperSlide.MAX_TICKS, op.viperSlideMotor.getCurrentPosition() + 1)
-            );
+            op.viperSlide.topBarRaise();
         }
-        else if (op.gamepad2.right_stick_x > 0) {
-            op.viperSlideMotor.setTargetPosition(
-                    Math.max(0, op.viperSlideMotor.getCurrentPosition() - 1)
-            );
+        else if (op.gamepad2.right_trigger > 0) {
+            op.viperSlide.topBarPull();
         }
         else if (op.gamepad2.right_bumper) {
             op.viperSlide.topBasketRaise();
-            op.sweeperRotator.setPosition(.5);
-            op.viperSlide.bucketFlat();
         }
         else if (op.gamepad2.left_bumper) {
             op.viperSlide.lower();
-            op.viperSlide.bucketDown();
         }
     }
 
