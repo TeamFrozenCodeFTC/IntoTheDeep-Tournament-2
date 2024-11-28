@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.teleOp.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.util.LinearEquation;
 
+@TeleOp
 public class MotorTicksTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -14,6 +16,8 @@ public class MotorTicksTest extends LinearOpMode {
         motor = hardwareMap.get(DcMotor.class, "linearSlide");
 
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setDirection(DcMotor.Direction.REVERSE);
+
         motor.setTargetPosition(0);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -24,6 +28,7 @@ public class MotorTicksTest extends LinearOpMode {
         while (opModeIsActive()) {
             pos += (int) gamepad1.right_stick_y;
             motor.setTargetPosition(pos);
+            motor.setPower(1);
             telemetry.addData("Motor Ticks Position", pos);
             telemetry.update();
         }

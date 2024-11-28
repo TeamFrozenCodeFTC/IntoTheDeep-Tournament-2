@@ -10,6 +10,7 @@ public class ViperSlide {
     public final static int MAX_TICKS = 4300;
 
     private void raise(int ticks) {
+        op.sweeperRotator.setPosition(.5);
         op.viperSlideMotor.setTargetPosition(ticks);
         op.viperSlideMotor.setPower(1);
     }
@@ -17,20 +18,32 @@ public class ViperSlide {
     public void topBasketRaise() {
         raise(4300);
     }
+//- 1650
+    //2256
+    //171
 
+    //644
     public void bottomBasketRaise() {
         raise(3000);
     }
 
     public void topBarRaise() {
-        raise(3000);
+        raise(2256);
+    }
+    public void topBarPull() {
+        raise(1650);
     }
 
     public void bottomBarRaise() {
-        raise(1000);
+        raise(644);
+    }
+    public void bottomBarPull() {
+        raise(171);
     }
 
     public void lower() {
+        op.sweeperRotator.setPosition(.5);
+        bucketDown();
         op.viperSlideMotor.setTargetPosition(0);
 
         op.viperSlideMotor.setPower(-1);
