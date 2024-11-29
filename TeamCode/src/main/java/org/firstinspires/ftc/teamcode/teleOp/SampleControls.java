@@ -15,41 +15,29 @@ public class SampleControls {
     void control() {
         linearSlide();
         dumper();
-
         intakeExtender();
         intakeArm();
         intakeSweeper();
+        claw();
+    }
 
-        if (op.gamepad1.triangle) {
+    void claw() {
+        if (op.gamepad2.triangle) {
             op.viperSlide.clawGrab();
         }
-        if (op.gamepad1.cross) {
+        if (op.gamepad2.cross) {
             op.viperSlide.clawOut();
         }
     }
 
-    void run() {
-        control();
-    }
-
     void linearSlide() {
-//        if (op.gamepad2.left_trigger > 0.5) {
-//            op.viperSlideMotor.setTargetPosition(
-//                    Math.min(ViperSlide.MAX_TICKS, op.viperSlideMotor.getCurrentPosition() + 10)
-//            );
-//            op.viperSlideMotor.setPower(1);
-//        }
-//        else if (op.gamepad2.right_trigger > 0.5) {
-//            op.viperSlideMotor.setTargetPosition(
-//                    Math.max(0, op.viperSlideMotor.getCurrentPosition() - 10)
-//            );
-//            op.viperSlideMotor.setPower(1);
-//        }
         if (op.gamepad2.left_trigger > 0) {
             op.viperSlide.topBarRaise();
         }
         else if (op.gamepad2.right_trigger > 0) {
             op.viperSlide.topBarPull();
+            op.viperSlide.waitForExtension();
+            op.viperSlide.clawOut();
         }
         else if (op.gamepad2.right_bumper) {
             op.viperSlide.topBasketRaise();

@@ -18,11 +18,7 @@ public class ViperSlide {
     public void topBasketRaise() {
         raise(4300);
     }
-//- 1650
-    //2256
-    //171
 
-    //644
     public void bottomBasketRaise() {
         raise(3000);
     }
@@ -62,24 +58,24 @@ public class ViperSlide {
     }
 
     public void dump() {
-        op.dumperServo.setPosition(0.37);
+        op.dumperServo.setPosition(0.6);
     }
 
     public void bucketFlat() {
-        op.dumperServo.setPosition(0.17);
+        op.dumperServo.setPosition(0.5);
     }
 
     public void bucketDown() {
-        op.dumperServo.setPosition(-0.17);
+        op.dumperServo.setPosition(0.25);
     }
 
     public void clawGrab() {
-        op.clawLeft.setPosition(.7);
-        op.clawRight.setPosition(0);
+        op.clawLeft.setPosition(.19);
+        op.clawRight.setPosition(.77);
     }
 
     public void clawOut() {
-        op.clawLeft.setPosition(0);
-        op.clawRight.setPosition(.5);
+        op.clawLeft.setPosition(.55);
+        op.clawRight.setPosition(.45);
     }
 }

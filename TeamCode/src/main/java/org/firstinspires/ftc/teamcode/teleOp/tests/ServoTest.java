@@ -12,11 +12,11 @@ public class ServoTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Servo servo;
 
-        servo = hardwareMap.get(Servo.class, "clawRight");
+        servo = hardwareMap.get(Servo.class, "clawRight"); //0.25 0.6
 
         LinearEquation servoMap = new LinearEquation(1, 1, -1, 0);
 
-        waitForStart();
+        waitForStart();//0.65  0.19
 
         while(opModeIsActive()) {
             double pos = servoMap.solve(gamepad1.left_stick_y);

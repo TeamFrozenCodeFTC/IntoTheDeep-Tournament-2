@@ -18,7 +18,7 @@ public class RelativeControls extends Robot {
 
         new Thread(() -> {
             while (opModeIsActive()) {
-                specimenControls.run();
+                specimenControls.control();
             }
         }).start();
 

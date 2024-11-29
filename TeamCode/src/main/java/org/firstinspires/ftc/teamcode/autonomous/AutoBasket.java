@@ -1,24 +1,21 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous
-public class AutoBasket extends AutonomousGyroed {
-    @Override
-    public void runOpMode() {
-        initRobot();
-        waitForStart();
-
-        double power = 0.2;
-
-        lockedAngle = 45;
-        slideLeft(18, power);
-
-        viperSlide.topBasketRaise();
+public abstract class AutoBasket extends Autonomous {
+    public void waitAndDump() {
         viperSlide.waitForExtension();
         viperSlide.dump();
-        sleep(2000);
+        sleep(1000);
         viperSlide.lower();
+    }
 
-        lockedAngle = -90;
-        goForward(24*2, power);
+    public void level1Ascent() {
+        double power = 0.7;
+        goForward(28, power);
+        turnRight(45, power);
+        goForward(20, power);
+        turnLeft(90, power);
+        viperSlide.topBarRaise();
+        goBackward(8, power);
+        goBackwardsSeconds(0.5, power);
     }
 }
