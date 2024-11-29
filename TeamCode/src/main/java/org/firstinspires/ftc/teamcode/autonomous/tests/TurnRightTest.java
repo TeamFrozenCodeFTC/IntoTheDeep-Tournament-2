@@ -1,10 +1,9 @@
 package org.firstinspires.ftc.teamcode.autonomous.tests;
 
 import org.firstinspires.ftc.teamcode.autonomous.Autonomous;
-import org.firstinspires.ftc.teamcode.autonomous.AutonomousGyroed;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
-public class TurnRightTest extends AutonomousGyroed {
+public class TurnRightTest extends Autonomous {
     @Override
     public void runOpMode() {
         initRobot();

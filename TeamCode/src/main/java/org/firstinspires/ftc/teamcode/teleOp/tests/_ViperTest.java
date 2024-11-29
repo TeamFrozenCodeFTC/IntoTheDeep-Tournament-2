@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @TeleOp
-public class ViperTest extends Robot {
+public class _ViperTest extends Robot {
     @Override
     public void runOpMode() throws InterruptedException {
         initHardware();

@@ -7,7 +7,7 @@ public class Intake {
         this.op = op;
     }
 
-    static final double ARM_MIN_POSITION = .29;;
+    static final double ARM_MIN_POSITION = .29;
     static final double ARM_MAX_POSITION = .92;
 
     public static final int MAX_TICKS = 3500;
@@ -43,13 +43,6 @@ public class Intake {
 
     public void armIn() {
         op.sweeperRotator.setPosition(ARM_MIN_POSITION);
-    }
-
-    public void waitForArm() {
-        while (op.sweeperRotator.getPosition() != ARM_MIN_POSITION
-                || op.sweeperRotator.getPosition() != ARM_MAX_POSITION) {
-
-        }
     }
 
     public void spinSweeperIn() {

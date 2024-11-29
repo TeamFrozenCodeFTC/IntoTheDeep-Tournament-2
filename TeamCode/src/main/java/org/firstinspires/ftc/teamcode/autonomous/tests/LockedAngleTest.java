@@ -1,10 +1,9 @@
 package org.firstinspires.ftc.teamcode.autonomous.tests;
 
 import org.firstinspires.ftc.teamcode.autonomous.Autonomous;
-import org.firstinspires.ftc.teamcode.autonomous.AutonomousGyroed;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
-public class LockedAngleTest extends AutonomousGyroed {
+public class LockedAngleTest extends Autonomous {
     @Override
     public void runOpMode() {
         initRobot();
@@ -12,6 +11,9 @@ public class LockedAngleTest extends AutonomousGyroed {
         waitForStart();
 
         lockedAngle = 90;
-        goForward(12, 0.3);
+        while (gyro.getAngle() < lockedAngle) {
+            angleLock(0.7, 0.7, 0.7, 0.7);
+        }
+        goForward(18, 0.3);
     }
 }
