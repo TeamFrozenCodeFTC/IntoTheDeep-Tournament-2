@@ -36,8 +36,6 @@ public class SampleControls {
         }
         else if (op.gamepad2.right_trigger > 0) {
             op.viperSlide.topBarPull();
-            op.viperSlide.waitForExtension();
-            op.viperSlide.clawOut();
         }
         else if (op.gamepad2.right_bumper) {
             op.viperSlide.topBasketRaise();

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Robot;
 
 public abstract class Autonomous extends Robot {
-    static final double TICKS_TO_INCHES = ((13303-9360)/92.9); // 42.5
+    static final double TICKS_TO_INCHES = 41.5;//((13303-9360)/92.9); // 42.5
 
     public int lockedAngle = 0;
 
@@ -29,6 +29,27 @@ public abstract class Autonomous extends Robot {
         backRightWheel.setPower(backRight-angleLock);
     }
 
+    public double accel(double currentTicks, double targetTicks, double maxPower) {
+        double power;
+        double accelDistance = targetTicks * 0.2;
+        double decelDistance = targetTicks * 0.3;
+        double cruiseDistance = targetTicks - accelDistance - decelDistance;
+
+        if (currentTicks <= accelDistance) {
+            // Acceleration Phase
+            power = maxPower * (currentTicks / accelDistance);
+        } else if (currentTicks <= accelDistance + cruiseDistance) {
+            // Cruising Phase
+            power = maxPower;
+        } else {
+            // Deceleration Phase
+            double remainingDistance = targetTicks - currentTicks;
+            power = maxPower * (remainingDistance / decelDistance);
+        }
+
+        return power;
+    }
+
     void stopWheels() {
         backLeftWheel.setPower(0);
         backRightWheel.setPower(0);
@@ -44,9 +65,10 @@ public abstract class Autonomous extends Robot {
     public void goForward(double inches, double power) {
         resetEncoder();
 
-        double targetTics = inchesToTics(inches);
+        double targetTicks = inchesToTicks(inches);
 
-        while (backRightWheel.getCurrentPosition() < targetTics) {
+        while (backRightWheel.getCurrentPosition() < targetTicks) {
+            power = accel(backRightWheel.getCurrentPosition(), targetTicks, power);
             angleLock(power,power,power,power);
         }
 
@@ -56,9 +78,10 @@ public abstract class Autonomous extends Robot {
     public void goBackward(double inches, double power) {
         resetEncoder();
 
-        double targetTics = inchesToTics(inches);
+        double targetTicks = inchesToTicks(inches);
 
-        while (backRightWheel.getCurrentPosition() > -targetTics) {
+        while (backRightWheel.getCurrentPosition() > -targetTicks) {
+            power = accel(backRightWheel.getCurrentPosition(), targetTicks, power);
             angleLock(-power,-power,-power,-power);
         }
 
@@ -68,10 +91,11 @@ public abstract class Autonomous extends Robot {
     public void slideRight(double inches, double power) {
         resetEncoder();
 
-        double targetTics = inchesToTics(inches);
+        double targetTicks = inchesToTicks(inches);
 
-        while (backRightWheel.getCurrentPosition() > -targetTics) {
-            angleLock(power,-power,-power,-power);
+        while (backRightWheel.getCurrentPosition() < targetTicks) {
+            power = accel(backRightWheel.getCurrentPosition(), targetTicks, power);
+            angleLock(power,-power,-power,power);
         }
 
         stopWheels();
@@ -80,9 +104,10 @@ public abstract class Autonomous extends Robot {
     public void slideLeft(double inches, double power) {
         resetEncoder();
 
-        double targetTics = inchesToTics(inches);
+        double targetTicks = inchesToTicks(inches);
 
-        while (backRightWheel.getCurrentPosition() < targetTics) {
+        while (backRightWheel.getCurrentPosition() > -targetTicks) {
+            power = accel(backRightWheel.getCurrentPosition(), targetTicks, power);
             angleLock(-power,power,power,-power);
         }
 
@@ -149,29 +174,7 @@ public abstract class Autonomous extends Robot {
         moveSeconds(seconds, -power,power,power,-power);
     }
 
-    double inchesToTics(double inches){
+    double inchesToTicks(double inches){
         return inches*TICKS_TO_INCHES;
     }
-
-//    private void moveTimeout(
-//            double inches,
-//            double frontLeft,
-//            double backLeft,
-//            double frontRight,
-//            double backRight
-//    ) {
-//        resetEncoder();
-//
-//        double targetTics = inchesToTics(inches);
-//
-//        double startingTime = System.currentTimeMillis();
-//
-//        while (Math.abs(backRightWheel.getCurrentPosition()) < targetTics
-//                && System.currentTimeMillis() - startingTime < inches * 100) {
-//
-//            angleLock(lockedAngle, frontLeft, backLeft, frontRight, backRight);
-//        }
-//
-//        stopWheels();
-//    }
 }

@@ -41,7 +41,7 @@ public abstract class Robot extends LinearOpMode {
         motor.setDirection(DcMotor.Direction.REVERSE);
     }
 
-    private void resetTicks(DcMotor motor) {
+    public void resetTicks(DcMotor motor) {
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
