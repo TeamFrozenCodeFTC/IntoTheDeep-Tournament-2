@@ -9,13 +9,13 @@ public abstract class AutoBasket extends Autonomous {
     }
 
     public void level1Ascent() {
-        double power = 0.7;
+        double power = 0.5;
+        goForward(24, power);
+        turnLeft(45, power);
         goForward(28, power);
-        turnRight(45, power);
-        goForward(20, power);
         turnLeft(90, power);
         viperSlide.topBarRaise();
-        goBackward(8, power);
-        goBackwardsSeconds(0.5, power);
+        goBackward(10, power);
+        goBackwardsSeconds(1, 0.3);
     }
 }

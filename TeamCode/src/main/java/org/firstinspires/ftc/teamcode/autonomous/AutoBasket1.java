@@ -7,16 +7,20 @@ public class AutoBasket1 extends AutoBasket {
         initRobot();
         waitForStart();
 
-        double power = 0.7;
+        double power = 0.5;
 
         goForward(7, power);
-        slideLeft(17, power);
-        turnRight(45, power);
+        slideLeft(10, power);
         viperSlide.topBasketRaise();
+        turnRight(45, power);
         //goBackward(2.5, power);
-        goBackwardsSeconds(0.5, power);
+        goBackwardsSeconds(1, 0.3);
 
         waitAndDump();
+
+        goForward(4, power);
+        viperSlide.clawOut();
+        viperSlide.lower();
 
         level1Ascent();
     }

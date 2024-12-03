@@ -8,10 +8,12 @@ public class ViperSlide {
     }
 
     public final static int MAX_TICKS = 4300;
+    double targetTicks;
 
     private void raise(int ticks) {
         op.sweeperRotator.setPosition(.5);
         op.viperSlideMotor.setTargetPosition(ticks);
+        targetTicks = ticks;
         op.viperSlideMotor.setPower(1);
     }
 
@@ -27,7 +29,7 @@ public class ViperSlide {
         raise(2256);
     }
     public void topBarPull() {
-        raise(1650);
+        raise(1400);
     }
 
     public void bottomBarRaise() {
@@ -45,37 +47,41 @@ public class ViperSlide {
         op.viperSlideMotor.setPower(-1);
 
         new Thread(() -> {
-            waitForExtension();
+            while (op.viperSlideMotor.getCurrentPosition() > 10) {
+
+            }
             op.viperSlideMotor.setPower(0);
         }).start();
     }
 
     public void waitForExtension() {
         while (op.viperSlideMotor.isBusy()
-                || op.viperSlideMotor.getCurrentPosition() < MAX_TICKS-10) {
+                || op.viperSlideMotor.getCurrentPosition() < targetTicks-10) {
 
         }
+
     }
 
     public void dump() {
-        op.dumperServo.setPosition(0.6);
+        op.viperSlide.clawGrab();
+        op.dumperServo.setPosition(0.8);
     }
 
     public void bucketFlat() {
-        op.dumperServo.setPosition(0.5);
+        op.dumperServo.setPosition(0.6);
     }
 
     public void bucketDown() {
-        op.dumperServo.setPosition(0.25);
+        op.dumperServo.setPosition(0.4);
     }
 
     public void clawGrab() {
-        op.clawLeft.setPosition(.19);
-        op.clawRight.setPosition(.77);
+        op.clawLeft.setPosition(.095);//
+        op.clawRight.setPosition(.62);
     }
 
     public void clawOut() {
-        op.clawLeft.setPosition(.55);
-        op.clawRight.setPosition(.45);
+        op.clawLeft.setPosition(.54);
+        op.clawRight.setPosition(.16);
     }
 }
