@@ -26,6 +26,11 @@ public class Gyro2 {
         last = read();
     }
 
+    public void resetRotation(int degrees) {
+        angle = degrees;
+        last = read();
+    }
+
     public void store() {
         storedAngle = angle;
     }

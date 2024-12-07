@@ -10,6 +10,7 @@ public class RelativeControls extends Robot {
     @Override
     public void runOpMode() {
         initRobot();
+        viperSlide.lower();
 
         SampleControls specimenControls = new SampleControls(this);
         RelativeWheelControls relativeWheelControls = new RelativeWheelControls(this);

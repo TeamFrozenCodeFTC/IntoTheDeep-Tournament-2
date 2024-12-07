@@ -31,7 +31,7 @@ public class RelativeWheelControls {
         relativeSlide();
         pivot();
 
-        if (op.gamepad1.right_stick_button) {
+        if (op.gamepad1.right_bumper) {
             SPEED_FACTOR = 0.2;
         }
         else {

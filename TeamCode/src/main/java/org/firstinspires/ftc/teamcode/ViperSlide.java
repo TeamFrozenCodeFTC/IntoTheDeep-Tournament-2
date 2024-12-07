@@ -47,7 +47,8 @@ public class ViperSlide {
         op.viperSlideMotor.setPower(-1);
 
         new Thread(() -> {
-            while (op.viperSlideMotor.getCurrentPosition() > 10) {
+            long start= System.currentTimeMillis();
+            while (op.opModeIsActive() && op.viperSlideMotor.getCurrentPosition() > 10 && (System.currentTimeMillis() - start) < 10000) {
 
             }
             op.viperSlideMotor.setPower(0);
@@ -64,7 +65,7 @@ public class ViperSlide {
 
     public void dump() {
         op.viperSlide.clawGrab();
-        op.dumperServo.setPosition(0.8);
+        op.dumperServo.setPosition(0.6);
     }
 
     public void bucketFlat() {
@@ -72,7 +73,7 @@ public class ViperSlide {
     }
 
     public void bucketDown() {
-        op.dumperServo.setPosition(0.4);
+        op.dumperServo.setPosition(0.2);
     }
 
     public void clawGrab() {
