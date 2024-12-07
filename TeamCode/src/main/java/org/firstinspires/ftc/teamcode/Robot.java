@@ -37,6 +37,10 @@ public abstract class Robot extends LinearOpMode {
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
+    private void unbrakeMotor(DcMotor motor) {
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+    }
+
     private void reverse(DcMotor motor) {
         motor.setDirection(DcMotor.Direction.REVERSE);
     }
@@ -50,6 +54,20 @@ public abstract class Robot extends LinearOpMode {
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setTargetPosition(0);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void drift(double seconds) {
+        unbrakeMotor(frontRightWheel);
+        unbrakeMotor(frontLeftWheel);
+        unbrakeMotor(backRightWheel);
+        unbrakeMotor(backLeftWheel);
+
+        sleep((int) seconds* 1000L);
+
+        autoBrake(frontRightWheel);
+        autoBrake(frontLeftWheel);
+        autoBrake(backRightWheel);
+        autoBrake(backLeftWheel);
     }
 
     public void initWheels() {
@@ -74,7 +92,6 @@ public abstract class Robot extends LinearOpMode {
         intakeExtender = hardwareMap.get(DcMotor.class, "intakeMotor");
         autoBrake(intakeExtender);
         reverse(intakeExtender);
-        //runToPositionMode(intakeExtender); // !?
 
         viperSlideMotor = hardwareMap.get(DcMotor.class, "linearSlide");
         reverse(viperSlideMotor);
@@ -96,6 +113,7 @@ public abstract class Robot extends LinearOpMode {
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         gyro = new Gyro2(imu, this);
         gyro.startGyro();
+        gyro.reset();
     }
 
     public void initRobot() {

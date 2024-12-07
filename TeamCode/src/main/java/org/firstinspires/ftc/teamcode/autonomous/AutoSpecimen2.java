@@ -14,20 +14,21 @@ public class AutoSpecimen2 extends AutoSpecimen {
 
         double power = 0.5;
 
-        // Goes over to samples
+        // Goes over to sample  s
         goForward(4.5, power);
-        turnLeft(90, power);
+        turnLeft(90, turning);
         goForward(30, power);
         slideLeft(24, power);
 
         // Move sample 1
         goForward(6, power);
-        slideRight(24*2, power);
-        slideLeft((double) 24*1.7, power);
+        double higherPower = 0.55;
+        slideRight(24*2, higherPower);
+        slideLeft((double) 24*1.7, higherPower);
 
         // Move sample 2
         goForward(6, power);
-        slideRight(24*2, power);
+        slideRight(24*2, higherPower);
 
 //        slideLeft(6, power);
 //        turnLeft(90, power);
@@ -37,7 +38,7 @@ public class AutoSpecimen2 extends AutoSpecimen {
         slideLeft(9, power);
 
         // Turn to face with claw
-        turnLeft(90, power);
+        turnLeft(90, turning);
 
         // Go into wall
         goBackward(10, power);
@@ -48,7 +49,7 @@ public class AutoSpecimen2 extends AutoSpecimen {
         sleep(250);
         viperSlide.topBarPull();
 
-        sleep(250);
+        sleep(350);
         //viperSlide.waitForExtension();
 
         // Hang Specimen
@@ -56,20 +57,19 @@ public class AutoSpecimen2 extends AutoSpecimen {
         slideLeft(24*2.5, power);
 
         viperSlide.topBarRaise();
-        turnRight(180, power);
+        turnRight(180, turning);
 
-        goBackward(15, power);
+        goBackward(18, power);
         goBackward(1, 0.3);
 
         hangSpecimen();
 
-        observationZonePark();
+//        observationZonePark();
 
-//        viperSlide.waitForExtension();
-//
-//        goBackward(8, power);
-//
-//        turnRight(90, power);
-//        goBackward(24*2, power);
+        goForward(18, allPower);
+        turnRight(180, turning);
+        slideRight(24*2.9, allPower); // was 2.5
+        goForward(4, 0.4);
+
     }
 }

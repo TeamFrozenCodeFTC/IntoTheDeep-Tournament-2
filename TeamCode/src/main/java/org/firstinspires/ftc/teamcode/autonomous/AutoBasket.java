@@ -5,6 +5,21 @@ public abstract class AutoBasket extends Autonomous {
         viperSlide.waitForExtension();
         viperSlide.dump();
         sleep(1000);
+    }
+
+    public void dumpFirst() {
+        double power = 0.5;
+        goForward(7, power);
+        slideLeft(10, power);
+        viperSlide.topBasketRaise();
+        turnRight(45, power);
+        goBackwardsSeconds(1, 0.3);
+        goBackward(0.5, 0.3);
+
+        waitAndDump();
+
+        goForward(4, power);
+        viperSlide.clawOut();
         viperSlide.lower();
     }
 
@@ -17,5 +32,6 @@ public abstract class AutoBasket extends Autonomous {
         viperSlide.topBarRaise();
         goBackward(10, power);
         goBackwardsSeconds(1, 0.3);
+        sleep(30000);
     }
 }

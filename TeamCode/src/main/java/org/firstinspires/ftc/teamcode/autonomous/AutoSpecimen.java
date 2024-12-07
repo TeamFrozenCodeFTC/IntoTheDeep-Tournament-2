@@ -2,19 +2,22 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous
 public abstract class AutoSpecimen extends Autonomous {
-    double power = 0.5;
+    double allPower = 0.55;
+    double turning = 0.45;
 
     public void hookFirst() {
         viperSlide.topBarRaise();
-        goBackward(24, power);
+        goBackward(24, allPower);
         goBackwardsSeconds(0.7, 0.3);
 
         hangSpecimen();
     }
 
     public void observationZonePark() {
-        goForward(24, power);
-        slideLeft(24*2, power);
+        goForward(22, allPower);
+        slideLeft(24*2, allPower);
+
+        gyro.resetRotation(180);
     }
 
     public void hangSpecimen() {
