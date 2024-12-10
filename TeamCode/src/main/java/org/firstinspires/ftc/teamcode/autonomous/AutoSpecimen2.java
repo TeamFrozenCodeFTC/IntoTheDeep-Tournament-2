@@ -69,7 +69,7 @@ public class AutoSpecimen2 extends AutoSpecimen {
         goForward(18, allPower);
         turnRight(180, turning);
         slideRight(24*2.9, allPower); // was 2.5
-        goForward(4, 0.4);
+        goBackward(4, 0.4);
 
     }
 }

@@ -47,7 +47,7 @@ public class ViperSlide {
         op.viperSlideMotor.setPower(-1);
 
         new Thread(() -> {
-            long start= System.currentTimeMillis();
+            long start = System.currentTimeMillis();
             while (op.opModeIsActive() && op.viperSlideMotor.getCurrentPosition() > 10 && (System.currentTimeMillis() - start) < 10000) {
 
             }
@@ -78,11 +78,11 @@ public class ViperSlide {
 
     public void clawGrab() {
         op.clawLeft.setPosition(.095);//
-        op.clawRight.setPosition(.62);
+        op.clawRight.setPosition(.7);
     }
 
     public void clawOut() {
-        op.clawLeft.setPosition(.54);
-        op.clawRight.setPosition(.16);
+        op.clawLeft.setPosition(.5);
+        op.clawRight.setPosition(.3);
     }
 }

@@ -33,9 +33,14 @@ public class AutoBasket2 extends AutoBasket {
         slideRight(11, power);
         viperSlide.topBasketRaise();
         goBackward(30, power);
-        goBackward(0.6, 0.3);
+        goBackward(1, 0.3);
 
         waitAndDump();
+
+        goForward(4, power);
+        viperSlide.clawOut();
+        viperSlide.lower();
+        viperSlide.waitForExtension();
 
 //
 //        turnLeft(90+45, power);
