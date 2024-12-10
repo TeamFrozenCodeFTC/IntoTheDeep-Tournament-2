@@ -7,8 +7,8 @@ public class Intake {
         this.op = op;
     }
 
-    static final double ARM_MIN_POSITION = .29;
-    static final double ARM_MAX_POSITION = .95;
+    static final double ARM_MIN_POSITION = .35;
+    static final double ARM_MAX_POSITION = 1;
 
     public static final int MAX_TICKS = 3500;
     public static final int TICKS_MARGIN = 100;
