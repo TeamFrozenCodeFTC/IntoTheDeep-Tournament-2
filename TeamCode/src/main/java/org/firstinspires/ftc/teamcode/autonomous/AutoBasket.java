@@ -14,12 +14,12 @@ public abstract class AutoBasket extends Autonomous {
         viperSlide.topBasketRaise();
         turnRight(45, power);
         goBackwardsSeconds(1, 0.3);
-        goBackward(0.5, 0.3);
+        goBackward(0.9, 0.3);
 
         waitAndDump();
 
         goForward(4, power);
-        viperSlide.clawOut();
+        viperSlide.clawGrab();
         viperSlide.lower();
     }
 
